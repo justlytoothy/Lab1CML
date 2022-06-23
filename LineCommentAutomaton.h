@@ -7,17 +7,19 @@
 #include "Automaton.h"
 class LineCommentAutomaton : public Automaton
 {
-    //Make terminate if reaches end of file with no closing tag
+    // Make terminate if reaches end of file with no closing tag
 private:
     void s0()
     {
         if (match('#') && !peekEndOfFile())
         {
-            if (!matchText("#|")) {
+            if (!matchText("#|"))
+            {
                 next();
                 s1();
             }
-            else {
+            else
+            {
                 sError();
             }
         }
@@ -28,21 +30,24 @@ private:
     }
     void s1()
     {
-        if (!endOfFile()) {
-            if (match('#')) {
+        if (!endOfFile())
+        {
+            if (match('\n'))
+            {
                 next();
                 return;
             }
-            else {
+            else
+            {
                 next();
                 s1();
             }
         }
-        else {
+        else
+        {
             sError();
         }
     }
-
 
 public:
     LineCommentAutomaton()
@@ -51,5 +56,3 @@ public:
     }
 };
 #endif // LAB1_LINECOMMENTAUTOMATON_H
-
-

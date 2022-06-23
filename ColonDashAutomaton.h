@@ -5,30 +5,37 @@
 #ifndef LAB1_COLONDASHAUTOMATON_H
 #define LAB1_COLONDASHAUTOMATON_H
 #include "Automaton.h"
-class ColonDashAutomaton : public Automaton {
+class ColonDashAutomaton : public Automaton
+{
 private:
+    void s0()
+    {
 
-    void s0() {
-
-        if (match(':')) {
+        if (!peekEndOfFile() && match(':'))
+        {
             next();
-            s1(); // call s1 as the transition
+            s1();
         }
         else
             sError(); // this calls the error state
     }
-    void s1() {
-        if (match('-')) {
+    void s1()
+    {
+        if (match('-'))
+        {
             next();
             return; // this represents accepting the input
         }
-        else {
+        else
+        {
             sError();
-        }// this calls the error state
+        } // this calls the error state
     }
+
 public:
-    ColonDashAutomaton() {
+    ColonDashAutomaton()
+    {
         type = TokenType::COLON_DASH; // set the type
     }
 };
-#endif //LAB1_COLONDASHAUTOMATON_H
+#endif // LAB1_COLONDASHAUTOMATON_H

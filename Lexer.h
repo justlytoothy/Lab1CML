@@ -30,17 +30,20 @@
 #include "SchemesAutomaton.h"
 #include "RulesAutomaton.h"
 
-class Lexer {
+class Lexer
+{
 private:
-    vector<Automaton*> automata;
+    vector<Automaton *> automata;
     vector<Token> tokens;
+
 public:
-    const vector <Token> &getTokens() const {
+    const vector<Token> &getTokens() const
+    {
         return tokens;
     }
-    void initializeAutomata() {
+    void initializeAutomata()
+    {
         automata.push_back(new EndOfFileAutomaton());
-
         automata.push_back(new BlockCommentAutomaton());
         automata.push_back(new LineCommentAutomaton());
         automata.push_back(new StringAutomaton());
@@ -60,36 +63,39 @@ public:
         automata.push_back(new IDAutomaton());
         automata.push_back(new UndefinedCharAutomaton());
     }
-    vector<Token> run(string input, unsigned int line) {
+    vector<Token> run(string input)
+    {
         this->initializeAutomata();
-
-        while(input.size() > 0) {
-            while (isspace(input.at(0))) {
-                input.erase(0,1);
+        unsigned int linesRead = 0;
+        while (input.size() > 0)
+        {
+            while (isspace(input.at(0)) && input.at(0) != '\n')
+            {
+                input.erase(0, 1);
             }
             Automaton *maxAutomaton = automata.at(0);
-            unsigned int maxRead = 0;
-            //Handle Whitespace later here
-            for (unsigned int i = 0; i < automata.size(); i++) {
-                Automaton *currentAutomaton = automata.at(i);
 
-                if (currentAutomaton->run(input) > maxRead) {
+            unsigned int maxRead = 0;
+            // Handle Whitespace later here
+
+            for (unsigned int i = 0; i < automata.size(); i++)
+            {
+                Automaton *currentAutomaton = automata.at(i);
+                if (currentAutomaton->run(input) > maxRead)
+                {
                     maxRead = currentAutomaton->run(input);
                     maxAutomaton = currentAutomaton;
-
                 }
-
-
             }
 
-            Token currToken = Token(maxAutomaton->getType(), input.substr(0, maxRead), line);
-            cout << currToken.toString() << endl;
+            Token currToken = Token(maxAutomaton->getType(), input.substr(0, maxRead), linesRead);
+            linesRead += maxAutomaton->getNewLines();
+            // cout << currToken.toString() << endl;
             input = input.substr(maxRead);
             tokens.push_back(currToken);
         }
 
         return tokens;
     }
-
 };
-#endif //LAB1_LEXER_H
+#endif // LAB1_LEXER_H

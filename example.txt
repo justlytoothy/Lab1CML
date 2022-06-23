@@ -1,13 +1,7 @@
-
-
-: undefined character?
-*-
-+
-:-
-(
-)
-#
-1
-
-@
-
+:
+':hello there this is a line comment
+:
+:
+:
+:
+:'

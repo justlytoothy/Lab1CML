@@ -5,7 +5,8 @@
 #ifndef LAB1_COLONAUTOMATON_H
 #define LAB1_COLONAUTOMATON_H
 #include "Automaton.h"
-class ColonAutomaton : public Automaton {
+class ColonAutomaton : public Automaton
+{
 private:
     void s0()
     {
@@ -22,8 +23,9 @@ private:
     }
 
 public:
-    ColonAutomaton() {
+    ColonAutomaton()
+    {
         type = TokenType::COLON; // set the type
     }
 };
-#endif //LAB1_COLONAUTOMATON_H
+#endif // LAB1_COLONAUTOMATON_H

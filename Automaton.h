@@ -7,9 +7,9 @@
 #include <string>
 #include "Token.h"
 
-class Automaton {
+class Automaton
+{
 protected:
-
     // This tracks where in the input we are
     unsigned int currCharIndex = 0;
 
@@ -26,67 +26,82 @@ protected:
     virtual void s0() = 0;
 
     // Helper functions
-    void next() {
+    void next()
+    {
         if (curr() == '\n')
+        {
             newLinesRead++;
+        }
         numCharRead++;
         currCharIndex++;
     }
-    void zero() {
+    void zero()
+    {
         if (curr() == '\n')
             newLinesRead++;
         numCharRead++;
         currCharIndex++;
     }
 
-    char curr() {
+    char curr()
+    {
         return input.at(currCharIndex);
     }
-    char peekOne() {
+    char peekOne()
+    {
         return input.at(currCharIndex + 1);
     }
 
-    bool match(char c) {
+    bool match(char c)
+    {
         return (curr() == c);
     }
-    bool matchNext(char c) {
-        if (endOfFile()) {
+    bool matchNext(char c)
+    {
+        if (endOfFile())
+        {
             return false;
         }
-        else {
+        else
+        {
             return (peekOne() == c);
         }
     }
-    bool matchText(string c) {
-        if (c.size() <= input.size() - currCharIndex + 1) {
+    bool matchText(string c)
+    {
+        if (c.size() <= input.size() - currCharIndex + 1)
+        {
             string temp = input.substr(currCharIndex, c.size());
             return (temp == c);
         }
-        else {
+        else
+        {
             return false;
         }
     }
 
-
     // Call this function to check if you have reached the end of file
-    bool endOfFile() {
+    bool endOfFile()
+    {
         return (currCharIndex >= input.size());
     }
 
-    bool peekEndOfFile() {
+    bool peekEndOfFile()
+    {
         return (currCharIndex + 1 >= input.size());
     }
 
-
     // This is the error state call it when the token is invalid
-    void sError() {
+    void sError()
+    {
         numCharRead = 0;
     }
 
 public:
     Automaton() {}
 
-    unsigned int run(std::string input) {
+    unsigned int run(std::string input)
+    {
         this->input = input;
         currCharIndex = 0;
         newLinesRead = 0;
@@ -95,12 +110,14 @@ public:
         return numCharRead;
     }
 
-    unsigned int getNewLines() {
+    unsigned int getNewLines()
+    {
         return newLinesRead;
     }
 
-    TokenType getType() {
+    TokenType getType()
+    {
         return type;
     }
 };
-#endif //LAB1_AUTOMATON_H
+#endif // LAB1_AUTOMATON_H
