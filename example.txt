@@ -1,7 +1,13 @@
 
 
-# undefined character
+: undefined character?
+*-
++
+:-
+(
+)
+#
+1
 
 @
-
 
