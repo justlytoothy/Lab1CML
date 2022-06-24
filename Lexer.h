@@ -29,6 +29,8 @@
 #include "MultiplyAutomaton.h"
 #include "SchemesAutomaton.h"
 #include "RulesAutomaton.h"
+#include "UndefinedStringAutomaton.h"
+#include "UndefinedCommentAutomaton.h"
 
 class Lexer
 {
@@ -62,6 +64,8 @@ public:
         automata.push_back(new RulesAutomaton());
         automata.push_back(new IDAutomaton());
         automata.push_back(new UndefinedCharAutomaton());
+        automata.push_back(new UndefinedStringAutomaton());
+        automata.push_back(new UndefinedCommentAutomaton());
     }
     vector<Token> run(string input)
     {
