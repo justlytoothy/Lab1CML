@@ -66,12 +66,19 @@ public:
     vector<Token> run(string input)
     {
         this->initializeAutomata();
-        unsigned int linesRead = 0;
+        unsigned int linesRead = 1;
+        cout << "this is the input:" << endl
+             << input << endl;
+
         while (input.size() > 0)
         {
-            while (isspace(input.at(0)) && input.at(0) != '\n')
+            while (isspace(input.at(0)))
             {
-                input.erase(0, 1);
+                if (input.at(0) == '\n')
+                {
+                    linesRead++;
+                }
+                input = input.substr(1);
             }
             Automaton *maxAutomaton = automata.at(0);
 
@@ -95,6 +102,8 @@ public:
             tokens.push_back(currToken);
         }
 
+        Token newToken = Token(automata.at(5)->getType(), "", linesRead + 1);
+        tokens.push_back(newToken);
         return tokens;
     }
 };

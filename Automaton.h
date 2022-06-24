@@ -28,7 +28,7 @@ protected:
     // Helper functions
     void next()
     {
-        if (curr() == '\n')
+        if (curr() == '\n' || curr() == EOF)
         {
             newLinesRead++;
         }

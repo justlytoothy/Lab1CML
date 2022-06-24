@@ -10,14 +10,15 @@ class EndOfFileAutomaton : public Automaton
 private:
     void s0()
     {
-        if (endOfFile())
+
+        if (match(EOF))
         {
             next();
-            cout << "EOF" << endl;
             return; // this represents accepting the input
         }
         else
         {
+
             sError();
         } // this calls the error state
     }

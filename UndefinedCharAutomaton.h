@@ -10,8 +10,15 @@ class UndefinedCharAutomaton : public Automaton
 private:
     void s0()
     {
-        next(); // read next character
-        return; // accept the input
+        if (!match(EOF))
+        {
+            next(); // read next character
+            return; // accept the input
+        }
+        else
+        {
+            sError();
+        }
     }
 
 public:

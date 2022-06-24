@@ -8,50 +8,46 @@
 // need these for isalnum and isalpha
 #include <stdio.h>
 #include <ctype.h>
-class IDAutomaton : public Automaton {
+class IDAutomaton : public Automaton
+{
 private:
-    bool isSpecial() {
-        if (matchText("Facts") || matchText("Queries") || matchText("Rules") || matchText("Schemes")) {
-            return true;
+    void s0()
+    {
+
+        if (isalpha(curr()))
+        {
+            next();
+            s1();
         }
-        else {
-            return false;
+        else
+        {
+            sError();
         }
     }
-    void s0() {
-        if (isSpecial()) {
-            sError();
-        } else {
-            if (isalpha(curr())) {
+    void s1()
+    {
+        if (!endOfFile())
+        {
+            if (isalnum(curr()))
+            {
                 next();
                 s1();
-            } else {
-                sError();
+            }
+            else
+            {
+                return; // accept
             }
         }
-
-    }
-    void s1() {
-        if (!endOfFile()) {
-            if (!isSpecial()) {
-                if (isalnum(curr())) {
-                    next();
-                    s1();
-                } else {
-                    return; //accept
-                }
-            }
-            else {
-                return;
-            }
-        }
-        else {
+        else
+        {
             return;
         }
     }
+
 public:
-    IDAutomaton() {
+    IDAutomaton()
+    {
         type = TokenType::ID; // set the type
     }
 };
-#endif //LAB1_IDAUTOMATON_H
+#endif // LAB1_IDAUTOMATON_H

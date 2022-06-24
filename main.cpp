@@ -1,10 +1,8 @@
 #include "Lexer.h"
 #include "Token.h"
 #include <fstream>
-#include <sstream>
 int main(int argc, char *argv[])
 {
-    stringstream fullFile;
     ifstream myFile;
     if (argc > 1)
     {
@@ -13,16 +11,20 @@ int main(int argc, char *argv[])
         // }
 
         myFile.open(argv[1]);
+        Lexer lexer;
+        string fullFile = "";
         if (myFile.is_open())
         {
-            Lexer lexer;
-            string line = "";
-            while (getline(myFile, line))
+            while (myFile.peek() != EOF)
             {
-                fullFile << line << endl;
+                fullFile += myFile.get();
             }
-            fullFile << "EOF" << endl;
-            lexer.run(fullFile.str());
+            cout << fullFile << endl;
+            vector<Token> tokens = lexer.run(fullFile);
+            for (unsigned int i = 0; i < tokens.size() - 1; i++)
+            {
+                cout << tokens.at(i).toString() << endl;
+            }
             return 0;
         }
         else
@@ -32,17 +34,17 @@ int main(int argc, char *argv[])
     }
     else
     {
-        myFile.open("example.txt");
+        myFile.open("project1-exampleIO/in10.txt");
         if (myFile.is_open())
         {
             Lexer lexer;
-            string line = "";
-            while (getline(myFile, line))
+            string fullFile = "";
+            while (myFile.peek() != EOF)
             {
-                fullFile << line << endl;
+                fullFile += myFile.get();
             }
-            // cout << fullFile.str() << endl;
-            vector<Token> tokens = lexer.run(fullFile.str());
+            fullFile += EOF;
+            vector<Token> tokens = lexer.run(fullFile);
             for (unsigned int i = 0; i < tokens.size() - 1; i++)
             {
                 cout << tokens.at(i).toString() << endl;
