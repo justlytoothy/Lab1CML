@@ -67,9 +67,6 @@ public:
     {
         this->initializeAutomata();
         unsigned int linesRead = 1;
-        cout << "this is the input:" << endl
-             << input << endl;
-
         while (input.size() > 0)
         {
             while (isspace(input.at(0)))
