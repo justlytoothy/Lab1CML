@@ -90,7 +90,7 @@ public:
         case UNDEFINED:
             return "UNDEFINED";
         default:
-            return "";
+            return 0;
         }
     }
 
