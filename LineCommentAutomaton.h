@@ -34,7 +34,6 @@ private:
         {
             if (match('\n'))
             {
-                next();
                 return;
             }
             else

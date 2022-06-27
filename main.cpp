@@ -22,6 +22,7 @@ int main(int argc, char *argv[])
             {
                 cout << tokens.at(i).toString() << endl;
             }
+            cout << "Total Tokens = " << tokens.size() - 1;
             return 0;
         }
         else
@@ -29,28 +30,28 @@ int main(int argc, char *argv[])
             return 1;
         }
     }
-    // else
-    // {
-    // myFile.open("project1-exampleIO/in10.txt");
-    // if (myFile.is_open())
-    // {
-    //     Lexer lexer;
-    //     string fullFile = "";
-    //     while (myFile.peek() != EOF)
-    //     {
-    //         fullFile += myFile.get();
-    //     }
-    //     fullFile += EOF;
-    //     vector<Token> tokens = lexer.run(fullFile);
-    //     for (unsigned int i = 0; i < tokens.size() - 1; i++)
-    //     {
-    //         cout << tokens.at(i).toString() << endl;
-    //     }
-    //     return 0;
-    // }
-    // else
-    // {
-    //     return 1;
-    // }
-    // }
+    else
+    {
+        myFile.open("example.txt");
+        if (myFile.is_open())
+        {
+            Lexer lexer;
+            string fullFile = "";
+            while (myFile.peek() != EOF)
+            {
+                fullFile += myFile.get();
+            }
+            fullFile += EOF;
+            vector<Token> tokens = lexer.run(fullFile);
+            for (unsigned int i = 0; i < tokens.size() - 1; i++)
+            {
+                cout << tokens.at(i).toString() << endl;
+            }
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+    }
 }
