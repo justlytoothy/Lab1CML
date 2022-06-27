@@ -89,6 +89,8 @@ public:
             return "EOF";
         case UNDEFINED:
             return "UNDEFINED";
+        default:
+            return "";
         }
     }
 
