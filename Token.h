@@ -90,8 +90,12 @@ public:
         case UNDEFINED:
             return "UNDEFINED";
         default:
-            return "";
+            return 0;
         }
+    }
+    TokenType getType() const
+    {
+        return type;
     }
 
 private:
