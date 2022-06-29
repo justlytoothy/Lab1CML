@@ -56,8 +56,9 @@ int main(int argc, char *argv[])
     //     }
     // }
     vector<Token> tokens = {
-        Token(COMMA, ",", 2),
-        Token(RIGHT_PAREN, ")", 2),
+        Token(ID, "Ned", 2),
+        Token(LEFT_PAREN, "(", 2),
+        Token(ID, "Ted", 2),
         Token(COMMA, ",", 2),
         Token(ID, "Zed", 2),
         Token(RIGHT_PAREN, ")", 2),
@@ -66,7 +67,7 @@ int main(int argc, char *argv[])
     try
     {
         Parser p = Parser(tokens);
-        p.idList();
+        p.scheme();
         cout << "Success!";
     }
     catch (Token errorToken)

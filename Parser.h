@@ -22,11 +22,26 @@ public:
     {
         throw tokens.at(0);
     }
-    string match(TokenType t)
+    // string match(TokenType t)
+    // {
+    //     // the cout can be removed for the final project
+    //     cout << "match: " << t << endl;
+    //     string tokenValue = "DATA UNCAUGHT";
+    //     if (tokenType() == t)
+    //     {
+    //         advanceToken();
+    //     }
+    //     else
+    //     {
+    //         throwError();
+    //     }
+    //     return tokenValue;
+    // }
+    void match(TokenType t)
     {
-        // the cout can be removed for the final project
+        // the cout should be removed for the final project output
         cout << "match: " << t << endl;
-        string tokenValue = "DATA UNCAUGHT";
+
         if (tokenType() == t)
         {
             advanceToken();
@@ -35,7 +50,6 @@ public:
         {
             throwError();
         }
-        return tokenValue;
     }
     void idList()
     {
@@ -47,8 +61,16 @@ public:
         }
         else
         {
-            cout << "hello" << endl;
+            cout << "lambda" << endl;
         }
+    }
+    void scheme()
+    {
+        match(ID);
+        match(LEFT_PAREN);
+        match(ID);
+        idList();
+        match(RIGHT_PAREN);
     }
 };
 #endif // LAB1_COMMAAUTOMATON_H
