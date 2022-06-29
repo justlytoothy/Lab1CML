@@ -93,6 +93,10 @@ public:
             return 0;
         }
     }
+    TokenType getType() const
+    {
+        return type;
+    }
 
 private:
     TokenType type;
