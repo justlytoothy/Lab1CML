@@ -100,7 +100,13 @@ public:
             linesRead += maxAutomaton->getNewLines();
             // cout << currToken.toString() << endl;
             input = input.substr(maxRead);
-            tokens.push_back(currToken);
+            if (currToken.typeName(currToken.getType()) != "COMMENT")
+            {
+                tokens.push_back(currToken);
+            }
+            else
+            {
+            }
         }
 
         Token newToken = Token(automata.at(5)->getType(), "", linesRead + 1);
