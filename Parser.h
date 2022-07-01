@@ -83,75 +83,76 @@ public:
             throwError();
         }
     }
-    // not done
+    // maybe done
     void datalogProgram()
     {
-        if (currTokenType() == COMMA)
-        {
-            match(COMMA);
-            match(ID);
-            idList();
-        }
-        else
-        {
-            cout << "lambda" << endl;
-        }
+        match(SCHEMES);
+        match(COLON);
+        scheme();
+        schemeList();
+        match(FACTS);
+        match(COLON);
+        factList();
+        match(RULES);
+        match(COLON);
+        ruleList();
+        match(QUERIES);
+        match(COLON);
+        query();
+        queryList();
+        match(EOFF);
     }
     // not done
     void schemeList()
     {
-        if (currTokenType() == COMMA)
-        {
-            match(COMMA);
-            match(ID);
-            idList();
-        }
-        else
-        {
-            cout << "lambda" << endl;
-        }
+        // if (currTokenType() == COMMA)
+        // {
+        scheme();
+        schemeList();
+        // }
+        // else
+        // {
+        //     cout << "lambda" << endl;
+        // }
     }
     // not done
     void factList()
     {
-        if (currTokenType() == COMMA)
-        {
-            match(COMMA);
-            match(ID);
-            idList();
-        }
-        else
-        {
-            cout << "lambda" << endl;
-        }
+        // if (currTokenType() == COMMA)
+        // {
+        fact();
+        factList();
+        // }
+        // else
+        // {
+        //     cout << "lambda" << endl;
+        // }
     }
     // not done
     void ruleList()
     {
-        if (currTokenType() == COMMA)
-        {
-            match(COMMA);
-            match(ID);
-            idList();
-        }
-        else
-        {
-            cout << "lambda" << endl;
-        }
+        // if (currTokenType() == COMMA)
+        // {
+        rule();
+        ruleList();
+        // }
+        // else
+        // {
+        //     cout << "lambda" << endl;
+        // }
     }
     // not done
     void queryList()
     {
-        if (currTokenType() == COMMA)
-        {
-            match(COMMA);
-            match(ID);
-            idList();
-        }
-        else
-        {
-            cout << "lambda" << endl;
-        }
+        // if (currTokenType() == COMMA)
+        // {
+        query();
+        queryList();
+        // }
+        // else
+        // {
+        //     cout << "lambda" << endl;
+        // }
     }
 
     void scheme()
@@ -162,7 +163,7 @@ public:
         idList();
         match(RIGHT_PAREN);
     }
-    // not done
+    // maybe done
     void fact()
     {
         match(ID);
@@ -170,15 +171,16 @@ public:
         match(STRING);
         stringList();
         match(RIGHT_PAREN);
+        match(PERIOD);
     }
-    // not done
+    // maybe done
     void rule()
     {
-        match(ID);
-        match(LEFT_PAREN);
-        match(ID);
-        idList();
-        match(RIGHT_PAREN);
+        headPredicate();
+        match(COLON_DASH);
+        predicate();
+        predicateList();
+        match(PERIOD);
     }
     // maybe done
     void query()
