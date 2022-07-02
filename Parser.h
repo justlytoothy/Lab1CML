@@ -72,7 +72,7 @@ public:
     void match(TokenType t)
     {
         // the cout should be removed for the final project output
-        cout << "token at index: " << currTokenIndex << " was type: " << typeName(currTokenType()) << " expected: " << typeName(t) << endl;
+        // cout << "token at index: " << currTokenIndex << " was type: " << typeName(currTokenType()) << " expected: " << typeName(t) << endl;
 
         if (currTokenType() == t)
         {
@@ -82,6 +82,10 @@ public:
         {
             throwError();
         }
+    }
+    void run()
+    {
+        datalogProgram();
     }
     // maybe done
     void datalogProgram()
@@ -102,57 +106,54 @@ public:
         queryList();
         match(EOFF);
     }
-    // not done
+    // maybe done
     void schemeList()
     {
-        // if (currTokenType() == COMMA)
-        // {
-        scheme();
-        schemeList();
-        // }
-        // else
-        // {
-        //     cout << "lambda" << endl;
-        // }
+        if (currTokenType() == ID)
+        {
+            scheme();
+            schemeList();
+        }
+        else
+        {
+        }
     }
-    // not done
-    void factList()
+    // maybe done
+    void
+    factList()
     {
-        // if (currTokenType() == COMMA)
-        // {
-        fact();
-        factList();
-        // }
-        // else
-        // {
-        //     cout << "lambda" << endl;
-        // }
+        if (currTokenType() == ID)
+        {
+            fact();
+            factList();
+        }
+        else
+        {
+        }
     }
-    // not done
+    // maybe done
     void ruleList()
     {
-        // if (currTokenType() == COMMA)
-        // {
-        rule();
-        ruleList();
-        // }
-        // else
-        // {
-        //     cout << "lambda" << endl;
-        // }
+        if (currTokenType() == ID)
+        {
+            rule();
+            ruleList();
+        }
+        else
+        {
+        }
     }
-    // not done
+    // maybe done
     void queryList()
     {
-        // if (currTokenType() == COMMA)
-        // {
-        query();
-        queryList();
-        // }
-        // else
-        // {
-        //     cout << "lambda" << endl;
-        // }
+        if (currTokenType() == ID)
+        {
+            query();
+            queryList();
+        }
+        else
+        {
+        }
     }
 
     void scheme()
@@ -202,7 +203,6 @@ public:
         }
         else
         {
-            cout << "lambda" << endl;
         }
     }
     // maybe done
@@ -218,7 +218,6 @@ public:
         }
         else
         {
-            cout << "lambda" << endl;
         }
     }
     // maybe done
@@ -232,7 +231,6 @@ public:
         }
         else
         {
-            cout << "lambda" << endl;
         }
     }
     // maybe done
@@ -246,7 +244,6 @@ public:
         }
         else
         {
-            cout << "lambda" << endl;
         }
     }
     // maybe
@@ -260,7 +257,6 @@ public:
         }
         else
         {
-            cout << "lambda" << endl;
         }
     }
     void idList()
@@ -273,7 +269,6 @@ public:
         }
         else
         {
-            cout << "lambda" << endl;
         }
     }
     // maybe done

@@ -22,14 +22,14 @@ int main(int argc, char *argv[])
             try
             {
                 Parser parser(tokens);
+                parser.run();
                 cout << "Success!";
                 return 0;
             }
             catch (Token errorToken)
             {
                 cout << "Failure!" << endl
-                     << "  " << errorToken.toString();
-                return 2;
+                     << "  " << errorToken.toString() << endl;
             }
         }
         else
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        myFile.open("example.txt");
+        myFile.open("./Project2aPassOffCases/2-80/input1.txt");
         if (myFile.is_open())
         {
             Lexer lexer;
@@ -53,13 +53,14 @@ int main(int argc, char *argv[])
             try
             {
                 Parser parser(tokens);
+                parser.run();
                 cout << "Success!";
                 return 0;
             }
             catch (Token errorToken)
             {
                 cout << "Failure!" << endl
-                     << "  " << errorToken.toString();
+                     << "  " << errorToken.toString() << endl;
             }
         }
         else
