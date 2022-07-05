@@ -10,7 +10,7 @@ private:
 
 public:
     Parser(const vector<Token> &tokens) : tokens(tokens) {}
-    int currTokenIndex = 0;
+    unsigned int currTokenIndex = 0;
     TokenType currTokenType() const
     {
         return currTokenIndex >= tokens.size() ? UNDEFINED : tokens.at(currTokenIndex).getType();
