@@ -1,9 +1,5 @@
-//
-// Created by Jake Schilling on 6/21/22.
-//
-
-#ifndef LAB1_LEXER_H
-#define LAB1_LEXER_H
+#ifndef LEXER_H
+#define LEXER_H
 #include <string>
 #include <vector>
 #include <iostream>

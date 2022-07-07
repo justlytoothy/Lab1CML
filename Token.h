@@ -49,6 +49,10 @@ public:
         }
         return out.str();
     }
+    string getContents()
+    {
+        return contents;
+    }
     string typeName(TokenType temp) const
     {
         switch (temp)
