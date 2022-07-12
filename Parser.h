@@ -227,6 +227,7 @@ public:
         params.clear();
         match(RIGHT_PAREN);
         match(PERIOD);
+        program.addFact(newFact);
     }
 
     void rule()
@@ -236,6 +237,7 @@ public:
         newRule.setHead(newHead);
         match(COLON_DASH);
         Predicate firstBody = predicate();
+        newRule.addBody(firstBody);
         predicateList();
         for (Predicate p : predicates)
         {
@@ -287,6 +289,8 @@ public:
         }
         else
         {
+            Predicate newHead;
+            return newHead;
         }
     }
 
@@ -311,6 +315,8 @@ public:
         }
         else
         {
+            Predicate newPredicate;
+            return newPredicate;
         }
     }
 
@@ -387,6 +393,11 @@ public:
             Parameter param;
             match(ID);
             param.setValue(getPrevTokenContents());
+            return param;
+        }
+        else
+        {
+            Parameter param;
             return param;
         }
     }

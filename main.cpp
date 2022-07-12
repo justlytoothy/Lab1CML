@@ -23,9 +23,12 @@ int main(int argc, char *argv[])
             vector<Token> tokens = lexer.run(fullFile);
             try
             {
+                DatalogProgram program;
                 Parser parser(tokens);
-                parser.run();
+                program = parser.run();
                 cout << "Success!";
+                cout << endl
+                     << program.toString();
                 return 0;
             }
             catch (Token errorToken)
@@ -58,9 +61,12 @@ int main(int argc, char *argv[])
             vector<Token> tokens = lexer.run(fullFile);
             try
             {
+                DatalogProgram program;
                 Parser parser(tokens);
-                parser.run();
+                program = parser.run();
                 cout << "Success!";
+                cout << endl
+                     << program.toString();
                 return 0;
             }
             catch (Token errorToken)
