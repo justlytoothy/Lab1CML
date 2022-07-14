@@ -1,7 +1,6 @@
 #ifndef PARAMETER_H
 #define PARAMETER_H
 #include <string>
-using namespace std;
 class Parameter
 {
 private:

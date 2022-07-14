@@ -3,7 +3,11 @@
 #include "Parser.h"
 #include "DatalogProgram.h"
 #include "Rule.h"
+#include "Relation.h"
+#include "Database.h"
+#include "Interpreter.h"
 #include <fstream>
+using namespace std;
 int main(int argc, char *argv[])
 {
     ifstream myFile;
@@ -86,52 +90,34 @@ int main(int argc, char *argv[])
     }
     // try
     // {
-    //     DatalogProgram program;
+    //     Tuple t1;
+    //     t1.push_back("A");
+    //     t1.push_back("B");
+    //     t1.push_back("C");
 
-    //     Predicate snapScheme;
-    //     snapScheme.setName("snap");
-    //     snapScheme.addParameter("S");
-    //     snapScheme.addParameter("N");
-    //     snapScheme.addParameter("A");
-    //     snapScheme.addParameter("P");
+    //     Tuple t2;
+    //     t2.push_back("1");
+    //     t2.push_back("2");
+    //     t2.push_back("1");
 
-    //     program.addScheme(snapScheme);
-    //     Predicate addressScheme;
-    //     addressScheme.setName("HasSameAddress");
-    //     addressScheme.addParameter("X");
-    //     addressScheme.addParameter("Y");
+    //     Header h1;
+    //     h1.push_back("col0");
+    //     h1.push_back("col1");
+    //     h1.push_back("col2");
 
-    //     program.addScheme(addressScheme);
-    //     Predicate snapFact;
-    //     snapFact.setName("snap");
-    //     snapFact.addParameter("'12345'");
-    //     snapFact.addParameter("'C. Brown'");
-    //     snapFact.addParameter("'12 Apple'");
-    //     snapFact.addParameter("'555-1234'");
+    //     vector<unsigned int> colsToKeep;
+    //     colsToKeep.push_back(2);
+    //     colsToKeep.push_back(0);
 
-    //     program.addFact(snapFact);
-    //     Rule rule;
-    //     rule.setHead(addressScheme);
-    //     rule.addBody(snapScheme);
-    //     rule.addBody(snapScheme);
+    //     Relation r1;
+    //     r1.setName("first");
+    //     r1.setHeader(h1);
+    //     r1.addTuple(t1);
+    //     r1.addTuple(t2);
 
-    //     program.addRule(rule);
-    //     Predicate addressQuery;
-    //     addressQuery.setName("HasSameAddress");
-    //     addressQuery.addParameter("'Snoopy'");
-    //     addressQuery.addParameter("Who");
+    //     cout << r1.project(colsToKeep)->toString() << endl;
 
-    //     program.addQuery(addressQuery);
-
-    //     string domain = "'12 Apple'";
-    //     program.addDomain(domain);
-
-    //     cout << program.toString();
     //     return 0;
-    // }
-    // catch (Token errorToken)
-    // {
-    //     cout << errorToken.toString() << endl;
     // }
     // catch (const char *errorMsg)
     // {
