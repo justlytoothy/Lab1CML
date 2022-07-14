@@ -1,5 +1,21 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory `/Users/dufus/Lab1CML'
-g++ -Wall -Werror -std=c++17 -g *.cpp -o lab1
+echo "Bucket 80"; \
+	for number in 0 1 2 3 4 5 6 7 ; \
+	do \
+		echo "Running input $number" ; \
+		./lab2 Project2bPassOffCases/2-80/input$number.txt > Project2bPassOffCases/out.txt ; \
+		diff -w Project2bPassOffCases/2-80/answer$number.txt Project2bPassOffCases/out.txt || (echo "diff failed on test $number \n") ; \
+	done \
+
+echo "Bucket 100"; \
+	for number in 0  ; \
+	do \
+		echo "Running input $number" ; \
+		./lab2 Project2bPassOffCases/2-100/input$number.txt > Project2bPassOffCases/out.txt ; \
+		diff -w Project2bPassOffCases/2-100/answer$number.txt Project2bPassOffCases/out.txt || (echo "diff failed on test $number \n") ; \
+	done \
+
+rm Project2bPassOffCases/out.txt
 make: Leaving directory `/Users/dufus/Lab1CML'
  
