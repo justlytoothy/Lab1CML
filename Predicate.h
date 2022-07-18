@@ -30,6 +30,15 @@ public:
     {
         return parameters;
     }
+    vector<string> getAllValues()
+    {
+        vector<string> values;
+        for (Parameter p : parameters)
+        {
+            values.push_back(p.getValue());
+        }
+        return values;
+    }
 
     // adder
     void addParameter(Parameter parameter)

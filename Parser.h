@@ -178,11 +178,7 @@ public:
 
     void scheme()
     {
-        // match(ID);
-        // match(LEFT_PAREN);
-        // match(ID);
-        // idList();
-        // match(RIGHT_PAREN);
+
         Predicate newScheme;
 
         match(ID); // in our example this would be "snap"
@@ -191,7 +187,7 @@ public:
         match(LEFT_PAREN);
         match(ID); // in our example this would be "s"
 
-        Parameter firstParameter;
+        Parameter firstParameter(false);
         firstParameter.setValue(getPrevTokenContents()); // make a new parameter
 
         newScheme.addParameter(firstParameter); // add our new parameter into our scheme
@@ -214,7 +210,7 @@ public:
         newFact.setName(getPrevTokenContents());
         match(LEFT_PAREN);
         match(STRING);
-        Parameter firstParam;
+        Parameter firstParam(true);
         firstParam.setValue(getPrevTokenContents());
         program.addDomain(firstParam.getValue());
         newFact.addParameter(firstParam);
@@ -267,7 +263,7 @@ public:
             match(LEFT_PAREN);
             match(ID); // in our example this would be "s"
 
-            Parameter firstParameter;
+            Parameter firstParameter(false);
             firstParameter.setValue(getPrevTokenContents()); // make a new parameter
 
             newHead.addParameter(firstParameter); // add our new parameter into our Head
@@ -352,7 +348,7 @@ public:
     {
         if (currTokenType() == COMMA)
         {
-            Parameter param;
+            Parameter param(true);
             match(COMMA);
             match(STRING);
             param.setValue(getPrevTokenContents());
@@ -367,7 +363,7 @@ public:
     {
         if (currTokenType() == COMMA)
         {
-            Parameter param;
+            Parameter param(false);
             match(COMMA);
             match(ID);
             param.setValue(getPrevTokenContents());
@@ -383,14 +379,14 @@ public:
     {
         if (currTokenType() == STRING)
         {
-            Parameter param;
+            Parameter param(true);
             match(STRING);
             param.setValue(getPrevTokenContents());
             return param;
         }
         else if (currTokenType() == ID)
         {
-            Parameter param;
+            Parameter param(false);
             match(ID);
             param.setValue(getPrevTokenContents());
             return param;

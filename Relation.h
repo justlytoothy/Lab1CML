@@ -14,6 +14,7 @@ private:
 
 public:
     Relation() {}
+    ~Relation() {}
 
     void setName(string newName)
     {

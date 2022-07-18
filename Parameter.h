@@ -5,8 +5,10 @@ class Parameter
 {
 private:
     string value;
+    bool isConstant;
 
 public:
+    Parameter(bool isConstant) : isConstant(isConstant) {}
     Parameter(string value) : value(value) {}
     Parameter() {}
     // setters
@@ -17,6 +19,10 @@ public:
     string getValue()
     {
         return value;
+    }
+    bool constant()
+    {
+        return isConstant;
     }
 
     // toString
