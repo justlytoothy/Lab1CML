@@ -5,8 +5,8 @@ Facts:
   SK('b','c').
   SK('b','b').
   SK('c','c').
-  SK('b','c').
 Rules:
 
 Queries:
-  SK(X,'c')?
+  SK('b',X)?
+  SK(X,'d')?

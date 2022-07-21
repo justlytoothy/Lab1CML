@@ -1,0 +1,433 @@
+Bucket 80
+Running input 0
+0a1
+> Success!
+2c3,4
+<   D='a', C='a'
+---
+> X='a',Y='a'
+> 
+diff failed on test 0 
+
+Running input 1
+0a1
+> Success!
+2,3c3,5
+<   A='a'
+<   A='b'
+---
+> X='a',Y='c'
+> X='b',Y='c'
+> 
+4a7,8
+> X='b',Y='c'
+> 
+7,9c11,14
+<   A='a', B='b'
+<   A='a', B='c'
+<   A='b', B='c'
+---
+> X='a',Y='b'
+> X='a',Y='c'
+> X='b',Y='c'
+> 
+diff failed on test 1 
+
+Running input 2
+0a1
+> Success!
+2,4c3,6
+<   A='a', B='a', C='a', D='a', E='a', F='a', G='b'
+<   A='a', B='a', C='c', D='a', E='a', F='a', G='b'
+<   A='a', B='b', C='a', D='a', E='a', F='a', G='b'
+---
+> H='a',I='a',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='a',J='c',K='a',L='a',M='a',N='b'
+> H='a',I='b',J='a',K='a',L='a',M='a',N='b'
+> 
+6,11c8,14
+<   A='a', B='a', D='s', E='a', F='a', G='b'
+<   A='b', B='a', D='a', E='a', F='a', G='b'
+<   A='d', B='a', D='a', E='a', F='a', G='b'
+<   A='r', B='a', D='a', E='a', F='a', G='b'
+<   A='x', B='a', D='a', E='a', F='a', G='b'
+<   A='z', B='a', D='a', E='a', F='a', G='b'
+---
+> H='a',I='a',J='a',K='s',L='a',M='a',N='b'
+> H='b',I='a',J='a',K='a',L='a',M='a',N='b'
+> H='d',I='a',J='a',K='a',L='a',M='a',N='b'
+> H='r',I='a',J='a',K='a',L='a',M='a',N='b'
+> H='x',I='a',J='a',K='a',L='a',M='a',N='b'
+> H='z',I='a',J='a',K='a',L='a',M='a',N='b'
+> 
+14,21c17,25
+<   A='a', B='a', D='a', E='a', F='a', Applestrudle='b'
+<   A='a', B='a', D='a', E='a', F='f', Applestrudle='b'
+<   A='a', B='a', D='a', E='a', F='g', Applestrudle='b'
+<   A='a', B='b', D='a', E='a', F='a', Applestrudle='b'
+<   A='a', B='c', D='a', E='a', F='a', Applestrudle='b'
+<   A='a', B='d', D='a', E='a', F='a', Applestrudle='b'
+<   A='a', B='e', D='a', E='a', F='a', Applestrudle='b'
+<   A='a', B='k', D='a', E='a', F='h', Applestrudle='b'
+---
+> H='a',I='a',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='a',J='a',K='a',L='a',M='f',N='b'
+> H='a',I='a',J='a',K='a',L='a',M='g',N='b'
+> H='a',I='b',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='c',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='d',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='e',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='k',J='a',K='a',L='a',M='h',N='b'
+> 
+23,30c27,35
+<   A='a', B='a', D='a', E='a', F='a', G='b'
+<   A='a', B='a', D='a', E='a', F='f', G='b'
+<   A='a', B='a', D='a', E='a', F='g', G='b'
+<   A='a', B='b', D='a', E='a', F='a', G='b'
+<   A='a', B='c', D='a', E='a', F='a', G='b'
+<   A='a', B='d', D='a', E='a', F='a', G='b'
+<   A='a', B='e', D='a', E='a', F='a', G='b'
+<   A='a', B='k', D='a', E='a', F='h', G='b'
+---
+> H='a',I='a',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='a',J='a',K='a',L='a',M='f',N='b'
+> H='a',I='a',J='a',K='a',L='a',M='g',N='b'
+> H='a',I='b',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='c',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='d',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='e',J='a',K='a',L='a',M='a',N='b'
+> H='a',I='k',J='a',K='a',L='a',M='h',N='b'
+> 
+31a37,38
+> H='a',I='a',J='a',K='a',L='a',M='a',N='b'
+> 
+diff failed on test 2 
+
+Running input 3
+0a1
+> Success!
+1a3,4
+> W='33333',X='Snoopy',Y='12 Apple St.',Z='555-1234'
+> 
+3c6,7
+<   S='33333', A='12 Apple St.', P='555-1234'
+---
+> W='33333',X='Snoopy',Y='12 Apple St.',Z='555-1234'
+> 
+5,6c9,11
+<   C='CS101', G='A-'
+<   C='EE200', G='B'
+---
+> X='CS101',Y='33333',Z='A-'
+> X='EE200',Y='33333',Z='B'
+> 
+8,11c13,17
+<   S='12345', N='C. Brown', A='12 Apple St.', P='555-1234'
+<   S='22222', N='P. Patty', A='56 Grape Blvd.', P='555-9999'
+<   S='33333', N='Snoopy', A='12 Apple St.', P='555-1234'
+<   S='67890', N='L. Van Pelt', A='34 Pear Ave.', P='555-5678'
+---
+> W='12345',X='C. Brown',Y='12 Apple St.',Z='555-1234'
+> W='22222',X='P. Patty',Y='56 Grape Blvd.',Z='555-9999'
+> W='33333',X='Snoopy',Y='12 Apple St.',Z='555-1234'
+> W='67890',X='L. Van Pelt',Y='34 Pear Ave.',Z='555-5678'
+> 
+13,19c19,26
+<   C='CS101', S='12345', G='A'
+<   C='CS101', S='33333', G='A-'
+<   C='CS101', S='67890', G='B'
+<   C='EE200', S='12345', G='C'
+<   C='EE200', S='22222', G='B+'
+<   C='EE200', S='33333', G='B'
+<   C='PH100', S='67890', G='C+'
+---
+> X='CS101',Y='12345',Z='A'
+> X='CS101',Y='33333',Z='A-'
+> X='CS101',Y='67890',Z='B'
+> X='EE200',Y='12345',Z='C'
+> X='EE200',Y='22222',Z='B+'
+> X='EE200',Y='33333',Z='B'
+> X='PH100',Y='67890',Z='C+'
+> 
+21,28c28,36
+<   C='CS101', Q='CS100'
+<   C='CS120', Q='CS101'
+<   C='CS121', Q='CS120'
+<   C='CS205', Q='CS101'
+<   C='CS206', Q='CS121'
+<   C='CS206', Q='CS205'
+<   C='EE200', Q='CS100'
+<   C='EE200', Q='EE005'
+---
+> X='CS101',Y='CS100'
+> X='CS120',Y='CS101'
+> X='CS121',Y='CS120'
+> X='CS205',Y='CS101'
+> X='CS206',Y='CS121'
+> X='CS206',Y='CS205'
+> X='EE200',Y='CS100'
+> X='EE200',Y='EE005'
+> 
+30,33c38,42
+<   C='EE200', D='Th', H='10AM'
+<   C='EE200', D='Tu', H='10AM'
+<   C='EE200', D='W', H='1PM'
+<   C='PH100', D='Tu', H='11AM'
+---
+> X='EE200',Y='Th',Z='10AM'
+> X='EE200',Y='Tu',Z='10AM'
+> X='EE200',Y='W',Z='1PM'
+> X='PH100',Y='Tu',Z='11AM'
+> 
+35,37c44,47
+<   C='CS101', R='Turing Aud.'
+<   C='EE200', R='25 Ohm Hall'
+<   C='PH100', R='Newton Lab.'
+---
+> X='CS101',Y='Turing Aud.'
+> X='EE200',Y='25 Ohm Hall'
+> X='PH100',Y='Newton Lab.'
+> 
+diff failed on test 3 
+
+Running input 4
+0a1
+> Success!
+2,11c3,13
+<   S='0000', N='Woodstock', A='Treehouse', P='555-0000'
+<   S='1111', N='Linus', A='Piano St', P='555-1111'
+<   S='1212', N='Lucy', A='Home Ln', P='555-1212'
+<   S='1234', N='Charley', A='Apple St', P='555-1234'
+<   S='3333', N='Marcie', A='Banana St', P='555-3333'
+<   S='4321', N='Rerun', A='Peach St', P='555-4321'
+<   S='4444', N='Sally', A='Circle Dr', P='555-4444'
+<   S='5678', N='Patty', A='Grape Blvd', P='555-5678'
+<   S='7890', N='Pig Pen', A='Pear Ave', P='555-7890'
+<   S='9876', N='Snoopy', A='Doghouse', P='555-9876'
+---
+> W='0000',X='Woodstock',Y='Treehouse',Z='555-0000'
+> W='1111',X='Linus',Y='Piano St',Z='555-1111'
+> W='1212',X='Lucy',Y='Home Ln',Z='555-1212'
+> W='1234',X='Charley',Y='Apple St',Z='555-1234'
+> W='3333',X='Marcie',Y='Banana St',Z='555-3333'
+> W='4321',X='Rerun',Y='Peach St',Z='555-4321'
+> W='4444',X='Sally',Y='Circle Dr',Z='555-4444'
+> W='5678',X='Patty',Y='Grape Blvd',Z='555-5678'
+> W='7890',X='Pig Pen',Y='Pear Ave',Z='555-7890'
+> W='9876',X='Snoopy',Y='Doghouse',Z='555-9876'
+> 
+13c15,16
+<   Id='9876', Address='Doghouse', Phone='555-9876'
+---
+> W='9876',X='Snoopy',Y='Doghouse',Z='555-9876'
+> 
+16,17c19,21
+<   Course='CS101'
+<   Course='EE200'
+---
+> X='CS101',Y='CS100'
+> X='EE200',Y='CS100'
+> 
+19,21c23,26
+<   Day='F', Hour='10AM'
+<   Day='M', Hour='10AM'
+<   Day='W', Hour='1PM'
+---
+> X='EE200',Y='F',Z='10AM'
+> X='EE200',Y='M',Z='10AM'
+> X='EE200',Y='W',Z='1PM'
+> 
+23c28,29
+<   Room='Study'
+---
+> X='CS101',Y='Study'
+> 
+diff failed on test 4 
+
+Running input 7
+0a1
+> Success!
+2,3c3,5
+<   COLOR='brown', appearance='tail', ATTITUDE='sly'
+<   COLOR='red', appearance='tail', ATTITUDE='sly'
+---
+> A='brown',B='tail',C='sly'
+> A='red',B='tail',C='sly'
+> 
+5,7c7,10
+<   POSTERITY='', DIET=''
+<   POSTERITY='kids', DIET=''
+<   POSTERITY='kids', DIET='cans'
+---
+> aMINAL='',sTUBBORN=''
+> aMINAL='kids',sTUBBORN=''
+> aMINAL='kids',sTUBBORN='cans'
+> 
+9c12,13
+<   POSTERITY='kids'
+---
+> aMINAL='kids',sTUBBORN='cans'
+> 
+diff failed on test 7 
+
+Running input 8
+0a1
+> Success!
+2c3,4
+<   Y='Ned'
+---
+> A='Ned',B='Jan'
+> 
+4,5c6,8
+<   Y='Sue'
+<   Y='Tim'
+---
+> A='Sue',B='Jack'
+> A='Tim',B='Jack'
+> 
+11c14,15
+<   X='Kim'
+---
+> A='Dan',B='Kim'
+> 
+13c17,18
+<   X='Jan'
+---
+> A='Ned',B='Jan'
+> 
+15,16c20,22
+<   X='Dan'
+<   X='Kim'
+---
+> A='Anna',B='Dan'
+> A='Anna',B='Kim'
+> 
+18,19c24,26
+<   Y='Anna'
+<   Y='Ron'
+---
+> A='Anna',B='Dan'
+> A='Ron',B='Dan'
+> 
+diff failed on test 8 
+
+Bucket 100
+Running input 5
+0a1
+> Success!
+2,3c3,5
+<   Y='Bea', X='Zed'
+<   Y='Zed', X='Bea'
+---
+> A='Bea',B='Zed'
+> A='Zed',B='Bea'
+> 
+5,6c7,9
+<   Y='George Foreman'
+<   Y='Zed'
+---
+> A='George Foreman',B='George Foreman'
+> A='Zed',B='Zed'
+> 
+8,9c11,13
+<   Y='Ned'
+<   Y='Tim'
+---
+> A='Ned',B='Bea'
+> A='Tim',B='Bea'
+> 
+11c15,16
+<   A='George Foreman', B='George Foreman'
+---
+> W='George Foreman',X='George Foreman',Y='George Foreman',Z='George Foreman'
+> 
+13,14c18,20
+<   A='George Foreman', C='George Foreman'
+<   A='Tod', C='Tod'
+---
+> W='George Foreman',X='George Foreman',Y='George Foreman',Z='George Foreman'
+> W='Tod',X='Tod',Y='George Foreman',Z='Tod'
+> 
+diff failed on test 5 
+
+Running input 6
+0a1
+> Success!
+2c3,4
+<   t='1'
+---
+> a='1',b='1',c='1',d='1'
+> 
+4,5c6,8
+<   s='1'
+<   s='2'
+---
+> a='1',b='1',c='1',d='1'
+> a='2',b='2',c='2',d='1'
+> 
+7c10,11
+<   t='2', s='3'
+---
+> a='2',b='2',c='3',d='3'
+> 
+9,12c13,17
+<   p='1', q='1', r='1'
+<   p='2', q='1', r='1'
+<   p='2', q='2', r='1'
+<   p='2', q='3', r='3'
+---
+> a='1',b='1',c='1',d='1'
+> a='2',b='2',c='1',d='1'
+> a='2',b='2',c='2',d='1'
+> a='2',b='2',c='3',d='3'
+> 
+14,15c19,21
+<   p='1', q='1'
+<   p='2', q='1'
+---
+> a='1',b='1',c='1',d='1'
+> a='2',b='2',c='1',d='1'
+> 
+diff failed on test 6 
+
+Running input 9
+0a1
+> Success!
+2,6c3,8
+<   A='bob', X='jane'
+<   A='frankk', X='mary'
+<   A='jane', X='frankk'
+<   A='john', X='john'
+<   A='mary', X='bob'
+---
+> E='bob',F='jane'
+> E='frankk',F='mary'
+> E='jane',F='frankk'
+> E='john',F='john'
+> E='mary',F='bob'
+> 
+8c10,11
+<   J='john'
+---
+> E='john',F='john'
+> 
+9a13,14
+> E='frankk',F='mary'
+> 
+12c17,18
+<   G='gollum'
+---
+> C='gollum',D='gollum'
+> 
+14c20,21
+<   B='bob'
+---
+> C='jane',D='bob'
+> 
+16c23,24
+<   M='mary'
+---
+> C='mary',D='frankk'
+> 
+diff failed on test 9 
+

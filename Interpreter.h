@@ -15,6 +15,7 @@ private:
     Database database;
     set<Relation *> relations;
     vector<Relation *> queryOutputs;
+    vector<Predicate> queries;
 
 public:
     Interpreter(DatalogProgram program)
@@ -57,6 +58,7 @@ public:
     {
         for (Predicate q : program.getQueries())
         {
+            queries.push_back(q);
             queryOutputs.push_back(evaluatePredicate(q));
         }
     }
@@ -100,9 +102,19 @@ public:
     {
         stringstream out;
         // out << database.toString() << endl;
-        for (Relation *r : queryOutputs)
+        for (unsigned int i = 0; i < queryOutputs.size(); i++)
         {
-            out << r->toString() << endl;
+            if (queryOutputs.at(i)->size() > 0)
+            {
+                out << queries.at(i).toString() << "? ";
+                out << "Yes(" << queryOutputs.at(i)->size() << ")" << endl;
+                out << queryOutputs.at(i)->toString() << endl;
+            }
+            else
+            {
+                out << queries.at(i).toString() << "? ";
+                out << "No" << endl;
+            }
         }
         return out.str();
     }
