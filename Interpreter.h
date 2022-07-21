@@ -67,6 +67,8 @@ public:
         Relation *output = database.getRelation(predicate.getName());
         map<string, unsigned int> seen;
         unsigned int i = 0;
+        vector<string> orderCheck;
+
         for (Parameter p : predicate.getParameters())
         {
             if (p.constant())
@@ -83,13 +85,21 @@ public:
                 }
                 else
                 {
+                    orderCheck.push_back(p.getValue());
                     seen.insert({p.getValue(), i});
                     // mark it as seen
                 }
             }
             i++;
         }
+        vector<unsigned int> cols;
+        for (string tmp : orderCheck)
+        {
+            cols.push_back(seen.at(tmp));
+        }
+        output = output->project(cols);
         // project
+        output = output->rename(orderCheck);
         // rename
 
         return output;
@@ -108,7 +118,7 @@ public:
             {
                 out << queries.at(i).toString() << "? ";
                 out << "Yes(" << queryOutputs.at(i)->size() << ")" << endl;
-                out << queryOutputs.at(i)->toString() << endl;
+                out << queryOutputs.at(i)->toString();
             }
             else
             {

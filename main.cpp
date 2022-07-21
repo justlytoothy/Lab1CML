@@ -35,7 +35,6 @@ int main(int argc, char *argv[])
                 Interpreter interpreter(program);
                 interpreter.evaluateQueries();
 
-                cout << "Success!" << endl;
                 cout << interpreter.toString();
                 return 0;
             }
@@ -56,7 +55,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        myFile.open("./example.txt");
+        myFile.open("./Lab3PassOffCases/3-80/input1.txt");
         if (myFile.is_open())
         {
             Lexer lexer;
@@ -77,7 +76,6 @@ int main(int argc, char *argv[])
                 Interpreter interpreter(program);
                 interpreter.evaluateQueries();
 
-                cout << "Success!" << endl;
                 cout << interpreter.toString();
                 return 0;
             }
