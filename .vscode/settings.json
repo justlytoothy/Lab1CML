@@ -9,6 +9,8 @@
 		"ostream": "cpp",
 		"string": "cpp",
 		"fstream": "cpp",
-		"sstream": "cpp"
+		"sstream": "cpp",
+		"set": "cpp",
+		"map": "cpp"
 	}
 }

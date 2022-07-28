@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <map>
 class Relation
 {
 private:
@@ -27,6 +28,10 @@ public:
     void addTuple(Tuple t)
     {
         tuples.insert(t);
+    }
+    set<Tuple> getTuples()
+    {
+        return tuples;
     }
     string getName()
     {
@@ -121,6 +126,95 @@ public:
         }
 
         return output;
+    }
+
+    Header combineHeaders(Header *h1, Header *h2, vector<unsigned int> uniqueCols)
+    {
+        Header combinedHeader;
+        for (unsigned int i = 0; i < h1->size(); i++)
+        {
+            combinedHeader.push_back(h1->at(i));
+        }
+        for (unsigned int i : uniqueCols)
+        {
+            combinedHeader.push_back(h2->at(i));
+        }
+        return combinedHeader;
+    }
+    Relation *naturalJoin(Relation *other)
+    {
+        // give clearer names to the this and other relations
+        Relation *r1 = this;
+        Relation *r2 = other;
+
+        Relation *output = new Relation();
+
+        // set name of output relation
+        output->setName(r1->getName() + " |x| " + r2->getName());
+
+        map<unsigned int, unsigned int> overlap;
+        vector<unsigned int> uniqueCols;
+        Header headOne = r1->getHeader();
+        Header headTwo = r2->getHeader();
+        bool found = false;
+        for (unsigned int i = 0; i < headTwo.size(); i++)
+        {
+            found = false;
+            for (unsigned int j = 0; j < headOne.size(); j++)
+            {
+                if (headOne.at(j) == headTwo.at(i))
+                {
+                    found = true;
+                    overlap.insert({j, i});
+                }
+            }
+            if (!found)
+            {
+                uniqueCols.push_back(i);
+            }
+        }
+        Header combinedHeader = this->combineHeaders(&headOne, &headTwo, uniqueCols);
+        output->setHeader(combinedHeader);
+        for (Tuple t1 : r1->getTuples())
+        {
+            for (Tuple t2 : r2->getTuples())
+            {
+                if (canJoin(&t1, &t2, overlap))
+                {
+                    Tuple newTuple = combineTuple(&t1, &t2, uniqueCols);
+                    output->addTuple(newTuple);
+                }
+            }
+        }
+
+        // combine tuples -- will be the tuples for 'output'
+        return output;
+    }
+    bool canJoin(Tuple *t1, Tuple *t2, map<unsigned int, unsigned int> overlap)
+    {
+        map<unsigned int, unsigned int>::iterator it;
+        for (it = overlap.begin(); it != overlap.end(); it++)
+        {
+            if (t1->at(it->first) == t2->at(it->second))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Tuple combineTuple(Tuple *t1, Tuple *t2, vector<unsigned int> uniqueCols)
+    {
+        Tuple newTuple;
+        for (unsigned int i = 0; i < t1->size(); i++)
+        {
+            newTuple.push_back(t1->at(i));
+        }
+        for (unsigned int i : uniqueCols)
+        {
+            newTuple.push_back(t2->at(i));
+        }
+        return newTuple;
     }
     string toString()
     {
