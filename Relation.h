@@ -186,8 +186,6 @@ public:
                 }
             }
         }
-
-        // combine tuples -- will be the tuples for 'output'
         return output;
     }
     bool canJoin(Tuple *t1, Tuple *t2, map<unsigned int, unsigned int> overlap)

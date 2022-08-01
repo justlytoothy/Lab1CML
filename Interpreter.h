@@ -16,6 +16,7 @@ private:
     set<Relation *> relations;
     vector<Relation *> queryOutputs;
     vector<Predicate> queries;
+    vector<Rule> rules;
 
 public:
     Interpreter(DatalogProgram program)
@@ -54,22 +55,48 @@ public:
     {
         relations.insert(relation);
     }
+    void evaluateRules()
+    {
+        cout << "in here" << endl;
+        vector<Relation *> relations;
+
+        for (Rule r : program.getRules())
+        {
+            bool first = true;
+
+            rules.push_back(r);
+            for (Predicate p : r.getBody())
+            {
+                if (first)
+                {
+                    Relation *first = evaluatePredicate(&p);
+                    first = false;
+                }
+                else
+                {
+                }
+                relations.push_back(evaluatePredicate(&p));
+            }
+        }
+        cout << "we out" << endl;
+    }
+
     void evaluateQueries()
     {
         for (Predicate q : program.getQueries())
         {
             queries.push_back(q);
-            queryOutputs.push_back(evaluatePredicate(q));
+            queryOutputs.push_back(evaluatePredicate(&q));
         }
     }
-    Relation *evaluatePredicate(Predicate predicate)
+    Relation *evaluatePredicate(Predicate *predicate)
     {
-        Relation *output = database.getRelation(predicate.getName());
+        Relation *output = database.getRelation(predicate->getName());
         map<string, unsigned int> seen;
         unsigned int i = 0;
         vector<string> orderCheck;
 
-        for (Parameter p : predicate.getParameters())
+        for (Parameter p : predicate->getParameters())
         {
             if (p.constant())
             {
