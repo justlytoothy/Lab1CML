@@ -199,6 +199,7 @@ public:
                 {
                     if (canJoin(&t1, &t2, overlap))
                     {
+                        // cout << t1.toString(combinedHeader) << "::::::" << t2.toString(combinedHeader) << endl;
                         Tuple newTuple = combineTuple(&t1, &t2, uniqueCols);
                         output->addTuple(newTuple);
                     }
@@ -211,7 +212,6 @@ public:
             {
                 for (Tuple t2 : r2->getTuples())
                 {
-
                     Tuple newTuple = combineTuple(&t1, &t2, uniqueCols);
                     output->addTuple(newTuple);
                 }
@@ -222,14 +222,15 @@ public:
     bool canJoin(Tuple *t1, Tuple *t2, map<unsigned int, unsigned int> overlap)
     {
         map<unsigned int, unsigned int>::iterator it;
+
         for (it = overlap.begin(); it != overlap.end(); it++)
         {
-            if (t1->at(it->first) == t2->at(it->second))
+            if (t1->at(it->first) != t2->at(it->second))
             {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     Tuple combineTuple(Tuple *t1, Tuple *t2, vector<unsigned int> uniqueCols)
