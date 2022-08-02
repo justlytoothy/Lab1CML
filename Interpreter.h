@@ -57,32 +57,70 @@ public:
     }
     void evaluateRules()
     {
-        cout << "in here" << endl;
-        vector<Relation *> relations;
-
+        cout << "Rule Evaluation" << endl;
+        unsigned int numPasses = 0;
         for (Rule r : program.getRules())
         {
-            bool first = true;
-
+            numPasses++;
+            cout << r.toString() << endl;
+            Predicate head = r.getHead();
+            vector<string> headCols = head.getAllValues();
+            bool isFirst = true;
+            Relation *first;
             rules.push_back(r);
             for (Predicate p : r.getBody())
             {
-                if (first)
+                if (isFirst)
                 {
-                    Relation *first = evaluatePredicate(&p);
-                    first = false;
+                    first = evaluatePredicate(&p);
+                    isFirst = false;
                 }
                 else
                 {
+                    Relation *tmp = evaluatePredicate(&p);
+                    first = first->naturalJoin(tmp);
                 }
-                relations.push_back(evaluatePredicate(&p));
+            }
+            Header header = first->getHeader();
+            vector<unsigned int> indices;
+            for (string s : headCols)
+            {
+                for (unsigned int i = 0; i < header.size(); i++)
+                {
+                    if (header.at(i) == s)
+                    {
+                        indices.push_back(i);
+                    }
+                }
+            }
+            first = first->project(indices);
+            Relation *original = database.getRelation(head.getName());
+            vector<string> newNames;
+            for (unsigned int i = 0; i < original->getHeader().size(); i++)
+            {
+
+                newNames.push_back(original->getHeader().at(i));
+            }
+            first = first->rename(newNames);
+            cout << first->toString();
+            for (Tuple t : first->getTuples())
+            {
+                database.addTupleToRelation(head.getName(), t);
             }
         }
-        cout << "we out" << endl;
+        for (Rule r : program.getRules())
+        {
+            cout << r.toString() << endl;
+        }
+        cout << endl
+             << "Schemes populated after " << numPasses << " passes through the Rules."
+             << endl
+             << endl;
     }
 
     void evaluateQueries()
     {
+        cout << "Query Evaluation" << endl;
         for (Predicate q : program.getQueries())
         {
             queries.push_back(q);
@@ -125,7 +163,6 @@ public:
             cols.push_back(seen.at(tmp));
         }
         output = output->project(cols);
-        // project
         output = output->rename(orderCheck);
         // rename
 

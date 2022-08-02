@@ -49,6 +49,7 @@ public:
             out << sep << predicate.toString();
             sep = ",";
         }
+        out << ".";
         return out.str();
     }
 };

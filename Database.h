@@ -20,6 +20,10 @@ public:
     {
         relations.insert({name, relation});
     }
+    void removeRelation(string name)
+    {
+        relations.erase(name);
+    }
     void addTupleToRelation(string name, Tuple tuple)
     {
         Relation *relation = relations.at(name);

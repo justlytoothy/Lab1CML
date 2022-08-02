@@ -53,7 +53,7 @@ public:
             string name = header.at(i);
             string value = at(i);
             out << sep << name << "=" << value;
-            sep = ",";
+            sep = ", ";
         }
         return out.str();
     }

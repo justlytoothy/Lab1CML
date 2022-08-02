@@ -221,7 +221,7 @@ public:
         {
             if (t.size() > 0)
             {
-                out << t.toString(header) << endl;
+                out << "  " << t.toString(header) << endl;
             }
         }
         return out.str();

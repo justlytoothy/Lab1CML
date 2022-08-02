@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
                 Parser parser(tokens);
                 program = parser.run();
                 Interpreter interpreter(program);
+                interpreter.evaluateRules();
                 interpreter.evaluateQueries();
 
                 cout << interpreter.toString();
