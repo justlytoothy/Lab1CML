@@ -27,7 +27,21 @@ public:
     }
     void addTuple(Tuple t)
     {
+
         tuples.insert(t);
+    }
+    bool addTupleCheck(Tuple t)
+    {
+
+        if (this->tuples.insert(t).second)
+        {
+            cout << "  " << t.toString(this->getHeader()) << endl;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     set<Tuple> getTuples()
     {
@@ -173,14 +187,31 @@ public:
                 uniqueCols.push_back(i);
             }
         }
+
         Header combinedHeader = this->combineHeaders(&headOne, &headTwo, uniqueCols);
+
         output->setHeader(combinedHeader);
-        for (Tuple t1 : r1->getTuples())
+        if (!overlap.empty())
         {
-            for (Tuple t2 : r2->getTuples())
+            for (Tuple t1 : r1->getTuples())
             {
-                if (canJoin(&t1, &t2, overlap))
+                for (Tuple t2 : r2->getTuples())
                 {
+                    if (canJoin(&t1, &t2, overlap))
+                    {
+                        Tuple newTuple = combineTuple(&t1, &t2, uniqueCols);
+                        output->addTuple(newTuple);
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (Tuple t1 : r1->getTuples())
+            {
+                for (Tuple t2 : r2->getTuples())
+                {
+
                     Tuple newTuple = combineTuple(&t1, &t2, uniqueCols);
                     output->addTuple(newTuple);
                 }

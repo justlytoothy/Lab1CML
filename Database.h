@@ -24,10 +24,10 @@ public:
     {
         relations.erase(name);
     }
-    void addTupleToRelation(string name, Tuple tuple)
+    bool addTupleToRelation(string name, Tuple tuple)
     {
         Relation *relation = relations.at(name);
-        relation->addTuple(tuple);
+        return relation->addTupleCheck(tuple);
     }
     Relation *getRelation(string name)
     {

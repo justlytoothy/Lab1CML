@@ -38,7 +38,9 @@ public:
         for (Predicate f : facts)
         {
             Tuple tuple(f.getAllValues());
-            database.addTupleToRelation(f.getName(), tuple);
+            Relation *r = database.getRelation(f.getName());
+            r->addTuple(tuple);
+            // database.addTupleToRelation(f.getName(), tuple);
         }
     }
     Interpreter() {}
@@ -59,58 +61,62 @@ public:
     {
         cout << "Rule Evaluation" << endl;
         unsigned int numPasses = 0;
-        for (Rule r : program.getRules())
+        bool somethingChanged = true;
+        while (somethingChanged)
         {
+            somethingChanged = false;
             numPasses++;
-            cout << r.toString() << endl;
-            Predicate head = r.getHead();
-            vector<string> headCols = head.getAllValues();
-            bool isFirst = true;
-            Relation *first;
-            rules.push_back(r);
-            for (Predicate p : r.getBody())
+            for (Rule r : program.getRules())
             {
-                if (isFirst)
+                cout << r.toString() << endl;
+                Predicate head = r.getHead();
+                vector<string> headCols = head.getAllValues();
+                bool isFirst = true;
+                Relation *first;
+                rules.push_back(r);
+                for (Predicate p : r.getBody())
                 {
-                    first = evaluatePredicate(&p);
-                    isFirst = false;
-                }
-                else
-                {
-                    Relation *tmp = evaluatePredicate(&p);
-                    first = first->naturalJoin(tmp);
-                }
-            }
-            Header header = first->getHeader();
-            vector<unsigned int> indices;
-            for (string s : headCols)
-            {
-                for (unsigned int i = 0; i < header.size(); i++)
-                {
-                    if (header.at(i) == s)
+                    if (isFirst)
                     {
-                        indices.push_back(i);
+                        first = evaluatePredicate(&p);
+                        isFirst = false;
+                    }
+                    else
+                    {
+                        Relation *tmp = evaluatePredicate(&p);
+                        first = first->naturalJoin(tmp);
+                    }
+                }
+                Header header = first->getHeader();
+                vector<unsigned int> indices;
+                for (string s : headCols)
+                {
+                    for (unsigned int i = 0; i < header.size(); i++)
+                    {
+                        if (header.at(i) == s)
+                        {
+                            indices.push_back(i);
+                        }
+                    }
+                }
+
+                first = first->project(indices);
+                Relation *original = database.getRelation(head.getName());
+                vector<string> newNames;
+                for (unsigned int i = 0; i < original->getHeader().size(); i++)
+                {
+                    newNames.push_back(original->getHeader().at(i));
+                }
+                first = first->rename(newNames);
+                for (Tuple t : first->getTuples())
+                {
+                    bool checkIt = database.addTupleToRelation(head.getName(), t);
+                    if (checkIt)
+                    {
+                        somethingChanged = true;
                     }
                 }
             }
-            first = first->project(indices);
-            Relation *original = database.getRelation(head.getName());
-            vector<string> newNames;
-            for (unsigned int i = 0; i < original->getHeader().size(); i++)
-            {
-
-                newNames.push_back(original->getHeader().at(i));
-            }
-            first = first->rename(newNames);
-            cout << first->toString();
-            for (Tuple t : first->getTuples())
-            {
-                database.addTupleToRelation(head.getName(), t);
-            }
-        }
-        for (Rule r : program.getRules())
-        {
-            cout << r.toString() << endl;
         }
         cout << endl
              << "Schemes populated after " << numPasses << " passes through the Rules."
