@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 #include <map>
 #include <stack>
 using namespace std;
@@ -25,6 +26,9 @@ private:
     map<int, set<int>> reverseAdjList;
     vector<node> nodes;
     vector<node *> visitOrder;
+    vector<vector<node *>> forest;
+    vector<node *> postOrder;
+    vector<vector<node *>> finalScc;
 
 public:
     Graph() {}
@@ -98,31 +102,8 @@ public:
                 nodes.at(getNodeIndex(it->first)).revAdj.push_back(&nodes.at(getNodeIndex(i)));
             }
         }
-        dfs(&nodes.at(0));
-        for (node *n : visitOrder)
-        {
-            cout << n->num << " ";
-        }
-        cout << endl;
-        // for (node n : nodes)
-        // {
-        //     cout << n.num << ": ";
-        //     for (node *no : n.adj)
-        //     {
-        //         cout << no->num << ",";
-        //     }
-        //     cout << endl;
-        // }
-        // cout << "reverse:" << endl;
-        // for (node n : nodes)
-        // {
-        //     cout << n.num << ": ";
-        //     for (node *no : n.revAdj)
-        //     {
-        //         cout << no->num << ",";
-        //     }
-        //     cout << endl;
-        // }
+        dfsForestOrder();
+        dfsForest();
     }
     void dfs(node *n)
     {
@@ -139,13 +120,64 @@ public:
             }
         }
     }
+    void forwardDfs(node *n)
+    {
+        if (!n->visited)
+        {
+            n->visited = true;
+            visitOrder.push_back(n);
+            for (node *p : n->revAdj)
+            {
+                if (!p->visited)
+                {
+                    dfs(p);
+                }
+            }
+        }
+    }
     void dfsForestOrder()
     {
-        cout << "dfs forest" << endl;
+        for (unsigned int i = 0; i < nodes.size(); i++)
+        {
+            if (!nodes.at(i).visited)
+            {
+                dfs(&nodes.at(i));
+                forest.push_back(visitOrder);
+                postOrder.push_back(visitOrder.at(visitOrder.size() - 1));
+
+                visitOrder.pop_back();
+            }
+        }
+        while (visitOrder.size() > 0)
+        {
+            postOrder.push_back(visitOrder.at(visitOrder.size() - 1));
+            visitOrder.pop_back();
+        }
+        reverse(postOrder.begin(), postOrder.end());
+        resetVisited();
     }
     void dfsForest()
     {
-        cout << "dfs forest" << endl;
+        for (unsigned int i = 0; i < nodes.size(); i++)
+        {
+            if (!nodes.at(i).visited)
+            {
+                dfs(&nodes.at(i));
+                forest.push_back(visitOrder);
+                postOrder.push_back(visitOrder.at(visitOrder.size() - 1));
+                for (node *n : visitOrder)
+                {
+                    cout << n->num << " ";
+                }
+                cout << "::::before pop" << endl;
+                visitOrder.pop_back();
+            }
+        }
+        while (visitOrder.size() > 0)
+        {
+            postOrder.push_back(visitOrder.at(visitOrder.size() - 1));
+            visitOrder.pop_back();
+        }
     }
     void resetVisited()
     {
