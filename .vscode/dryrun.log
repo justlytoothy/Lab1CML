@@ -1,21 +1,21 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory `/Users/dufus/Lab1CML'
 echo "Bucket 80"; \
-	for number in 0 1 2 3 4 7 8 ; \
+	for number in 0 1 2 3 4 5 6 7 ; \
 	do \
 		echo "Running input $number" ; \
-		./lab3 Lab3PassOffCases/3-80/input$number.txt > Lab3PassOffCases/out.txt ; \
-		diff -w Lab3PassOffCases/3-80/answer$number.txt Lab3PassOffCases/out.txt || (echo "diff failed on test $number \n") ; \
+		./lab5 Lab5PassOffCases/5-80/input$number.txt > Lab5PassOffCases/out.txt ; \
+		diff -w Lab5PassOffCases/5-80/answer$number.txt Lab5PassOffCases/out.txt || (echo "diff failed on test $number \n") ; \
 	done \
 
 echo "Bucket 100"; \
-	for number in 5 6 9 ; \
+	for number in 1 2 3 5 6 7 8 ; \
 	do \
 		echo "Running input $number" ; \
-		./lab3 Lab3PassOffCases/3-100/input$number.txt > Lab3PassOffCases/out.txt ; \
-		diff -w Lab3PassOffCases/3-100/answer$number.txt Lab3PassOffCases/out.txt || (echo "diff failed on test $number \n") ; \
+		./lab5 Lab5PassOffCases/5-100/input$number.txt > Lab5PassOffCases/out.txt ; \
+		diff -w Lab5PassOffCases/5-100/answer$number.txt Lab5PassOffCases/out.txt || (echo "diff failed on test $number \n") ; \
 	done \
 
-rm Lab3PassOffCases/out.txt
+rm Lab5PassOffCases/out.txt
 make: Leaving directory `/Users/dufus/Lab1CML'
  
