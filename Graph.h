@@ -6,21 +6,25 @@
 #include <vector>
 #include <iostream>
 #include <map>
+#include <stack>
 using namespace std;
 
 class Graph
 {
     struct node
     {
-        bool visited;
+        bool visited = false;
         int num;
         Rule rule;
+        vector<node *> adj;
+        vector<node *> revAdj;
     };
 
 private:
     map<int, set<int>> adjList;
     map<int, set<int>> reverseAdjList;
     vector<node> nodes;
+    vector<node *> visitOrder;
 
 public:
     Graph() {}
@@ -30,15 +34,16 @@ public:
     {
         return adjList.size();
     }
-    node getNode(int index)
+    int getNodeIndex(int index)
     {
-        for (node n : nodes)
+        for (int i = 0; i < nodes.size(); i++)
         {
-            if (n.num == index)
+            if (nodes.at(i).num == index)
             {
-                return n;
+                return i;
             }
         }
+        return -1;
     }
     void addNode(int nodeNum, Rule point)
     {
@@ -79,21 +84,60 @@ public:
                 reverseAdjList.at(i).insert(it->first);
             }
         }
-    }
-    void dfs(int index)
-    {
-        map<int, set<int>>::iterator it;
-        vector<int> visitedOrder;
-        vector<int> finalOrder;
-        for (it = check.begin(); it != check.end(); it++)
+        for (it = adjList.begin(); it != adjList.end(); it++)
         {
-
-            cout << "dfs" << endl;
+            for (int i : it->second)
+            {
+                nodes.at(getNodeIndex(it->first)).adj.push_back(&nodes.at(getNodeIndex(i)));
+            }
         }
-        resetVisited();
+        for (it = reverseAdjList.begin(); it != reverseAdjList.end(); it++)
+        {
+            for (int i : it->second)
+            {
+                nodes.at(getNodeIndex(it->first)).revAdj.push_back(&nodes.at(getNodeIndex(i)));
+            }
+        }
+        dfs(&nodes.at(0));
+        for (node *n : visitOrder)
+        {
+            cout << n->num << " ";
+        }
+        cout << endl;
+        // for (node n : nodes)
+        // {
+        //     cout << n.num << ": ";
+        //     for (node *no : n.adj)
+        //     {
+        //         cout << no->num << ",";
+        //     }
+        //     cout << endl;
+        // }
+        // cout << "reverse:" << endl;
+        // for (node n : nodes)
+        // {
+        //     cout << n.num << ": ";
+        //     for (node *no : n.revAdj)
+        //     {
+        //         cout << no->num << ",";
+        //     }
+        //     cout << endl;
+        // }
     }
-    void dfsTwo(node n) {
-
+    void dfs(node *n)
+    {
+        if (!n->visited)
+        {
+            n->visited = true;
+            visitOrder.push_back(n);
+            for (node *p : n->revAdj)
+            {
+                if (!p->visited)
+                {
+                    dfs(p);
+                }
+            }
+        }
     }
     void dfsForestOrder()
     {
