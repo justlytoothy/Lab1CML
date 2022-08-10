@@ -58,9 +58,86 @@ public:
     {
         relations.insert(relation);
     }
+    // void evaluateRules()
+    // {
+
+    //     Graph graph;
+    //     unsigned int nodeNum = 0;
+    //     for (Rule r : program.getRules())
+    //     {
+    //         graph.addNode(nodeNum, r);
+    //         nodeNum++;
+    //     }
+    //     graph.fillAdjacencyList();
+    //     cout << graph.toString() << endl
+    //          << endl;
+    //     cout << "Rule Evaluation" << endl;
+    //     unsigned int numPasses = 0;
+    //     bool somethingChanged = true;
+    //     while (somethingChanged)
+    //     {
+    //         somethingChanged = false;
+    //         numPasses++;
+    //         for (Rule r : program.getRules())
+    //         {
+    //             cout << r.toString() << endl;
+    //             Predicate head = r.getHead();
+    //             vector<string> headCols = head.getAllValues();
+    //             bool isFirst = true;
+    //             Relation *first;
+    //             rules.push_back(r);
+    //             for (Predicate p : r.getBody())
+    //             {
+    //                 if (isFirst)
+    //                 {
+    //                     first = evaluatePredicate(&p);
+    //                     isFirst = false;
+    //                 }
+    //                 else
+    //                 {
+    //                     Relation *tmp = evaluatePredicate(&p);
+    //                     first = first->naturalJoin(tmp);
+    //                 }
+    //             }
+    //             Header header = first->getHeader();
+    //             vector<unsigned int> indices;
+    //             for (string s : headCols)
+    //             {
+    //                 for (unsigned int i = 0; i < header.size(); i++)
+    //                 {
+    //                     if (header.at(i) == s)
+    //                     {
+    //                         indices.push_back(i);
+    //                     }
+    //                 }
+    //             }
+
+    //             first = first->project(indices);
+    //             Relation *original = database.getRelation(head.getName());
+    //             vector<string> newNames;
+    //             for (unsigned int i = 0; i < original->getHeader().size(); i++)
+    //             {
+    //                 newNames.push_back(original->getHeader().at(i));
+    //             }
+    //             first = first->rename(newNames);
+    //             for (Tuple t : first->getTuples())
+    //             {
+    //                 bool checkIt = database.addTupleToRelation(head.getName(), t);
+    //                 if (checkIt)
+    //                 {
+    //                     somethingChanged = true;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     cout << endl
+    //          << "Schemes populated after " << numPasses << " passes through the Rules."
+    //          << endl
+    //          << endl;
+    // }
+
     void evaluateRules()
     {
-
         Graph graph;
         unsigned int nodeNum = 0;
         for (Rule r : program.getRules())
@@ -69,6 +146,7 @@ public:
             nodeNum++;
         }
         graph.fillAdjacencyList();
+        vector<vector<int>> rulesScc = graph.getForest();
         cout << graph.toString() << endl
              << endl;
         cout << "Rule Evaluation" << endl;

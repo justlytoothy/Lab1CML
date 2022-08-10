@@ -27,8 +27,10 @@ private:
     vector<node> nodes;
     vector<node *> visitOrder;
     vector<vector<node *>> forest;
-    vector<node *> postOrder;
-    vector<vector<node *>> finalScc;
+    vector<int> postOrder;
+    vector<vector<int>> finalScc;
+    stack<int> posts;
+    set<int> marked;
 
 public:
     Graph() {}
@@ -48,6 +50,10 @@ public:
             }
         }
         return -1;
+    }
+    vector<vector<int>> getForest()
+    {
+        return finalScc;
     }
     void addNode(int nodeNum, Rule point)
     {
@@ -103,82 +109,127 @@ public:
             }
         }
         dfsForestOrder();
-        dfsForest();
+        // dfsForest();
     }
-    void dfs(node *n)
+    // void dfs(node *n)
+    // {
+    //     if (!n->visited)
+    //     {
+    //         n->visited = true;
+    //         visitOrder.push_back(n);
+    //         for (node *p : n->revAdj)
+    //         {
+    //             if (!p->visited)
+    //             {
+    //                 dfs(p);
+    //             }
+    //         }
+    //     }
+    // }
+    void dfs(int index)
     {
-        if (!n->visited)
+        marked.insert(index);
+        posts.push(index);
+        for (int i : reverseAdjList.at(index))
         {
-            n->visited = true;
-            visitOrder.push_back(n);
-            for (node *p : n->revAdj)
+            if (marked.find(i) == marked.end())
             {
-                if (!p->visited)
+                dfs(i);
+            }
+        }
+        postOrder.push_back(posts.top());
+        posts.pop();
+    }
+    void forwardDfs(int index)
+    {
+        marked.insert(index);
+        posts.push(index);
+        if (adjList.at(index).size() == 1)
+        {
+            for (int p : adjList.at(index))
+            {
+                if (marked.find(p) == marked.end())
                 {
-                    dfs(p);
+                    forwardDfs(p);
                 }
             }
         }
-    }
-    void forwardDfs(node *n)
-    {
-        if (!n->visited)
+        else if (adjList.at(index).size() > 1)
         {
-            n->visited = true;
-            visitOrder.push_back(n);
-            for (node *p : n->revAdj)
+            for (int i : adjList.at(index))
             {
-                if (!p->visited)
+                for (int j : postOrder)
                 {
-                    dfs(p);
+                    if (marked.find(i) == marked.end())
+                    {
+                        forwardDfs(i);
+                    }
                 }
             }
         }
+
+        newPostOrder.push_back(posts.top());
+        posts.pop();
     }
+
     void dfsForestOrder()
     {
         for (unsigned int i = 0; i < nodes.size(); i++)
         {
-            if (!nodes.at(i).visited)
+            if (marked.find(i) == marked.end())
             {
-                dfs(&nodes.at(i));
-                forest.push_back(visitOrder);
-                postOrder.push_back(visitOrder.at(visitOrder.size() - 1));
+                dfs(i);
+            }
+        }
+        cout << "Trees: ";
+        for (int i : postOrder)
+        {
+            cout << i << ", ";
+        }
+        while (posts.size() > 0)
+        {
+            postOrder.push_back(posts.top());
+            posts.pop();
+        }
 
-                visitOrder.pop_back();
-            }
-        }
-        while (visitOrder.size() > 0)
-        {
-            postOrder.push_back(visitOrder.at(visitOrder.size() - 1));
-            visitOrder.pop_back();
-        }
         reverse(postOrder.begin(), postOrder.end());
-        resetVisited();
+        marked.clear();
     }
-    void dfsForest()
-    {
-        for (unsigned int i = 0; i < nodes.size(); i++)
-        {
-            if (!nodes.at(i).visited)
-            {
-                dfs(&nodes.at(i));
-                forest.push_back(visitOrder);
-                postOrder.push_back(visitOrder.at(visitOrder.size() - 1));
-                for (node *n : visitOrder)
-                {
-                    cout << n->num << " ";
-                }
-                cout << "::::before pop" << endl;
-                visitOrder.pop_back();
-            }
-        }
-        while (visitOrder.size() > 0)
-        {
-            postOrder.push_back(visitOrder.at(visitOrder.size() - 1));
-            visitOrder.pop_back();
-        }
-    }
+    // void dfsForest()
+    // {
+    //     for (node *n : postOrder)
+    //     {
+    //         n->visited = false;
+    //     }
+    //     for (unsigned int i = 0; i < postOrder.size(); i++)
+    //     {
+
+    //         if (!postOrder.at(i)->visited)
+    //         {
+    //             forwardDfs(postOrder.at(i));
+    //             forest.push_back(visitOrder);
+    //             visitOrder.clear();
+    //         }
+    //     }
+    //     for (vector<node *> p : forest)
+    //     {
+    //         vector<int> tmp;
+    //         for (node *j : p)
+    //         {
+    //             tmp.push_back(j->num);
+    //         }
+    //         finalScc.push_back(tmp);
+    //     }
+    //     for (vector<node *> p : forest)
+    //     {
+    //         cout << "Tree: ";
+    //         for (node *j : p)
+    //         {
+    //             cout << j->num << ", ";
+    //         }
+    //         cout << endl;
+    //     }
+    // }
     void resetVisited()
     {
         for (node n : nodes)
