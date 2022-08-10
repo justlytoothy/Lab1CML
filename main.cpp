@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        myFile.open("./example.txt");
+        myFile.open("./Lab5PassOffCases/5-80/input6.txt");
         if (myFile.is_open())
         {
             Lexer lexer;

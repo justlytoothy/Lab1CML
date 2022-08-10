@@ -146,77 +146,154 @@ public:
             nodeNum++;
         }
         graph.fillAdjacencyList();
-        vector<vector<int>> rulesScc = graph.getForest();
-        cout << graph.toString() << endl
-             << endl;
+        vector<set<int>> rulesScc = graph.getForest();
+        cout << graph.toString() << endl;
+        rules = program.getRules();
+        vector<set<int>> scc = graph.getForest();
+        map<int, set<int>> adjList = graph.getList();
         cout << "Rule Evaluation" << endl;
-        unsigned int numPasses = 0;
-        bool somethingChanged = true;
-        while (somethingChanged)
+        for (set<int> v : scc)
         {
-            somethingChanged = false;
-            numPasses++;
-            for (Rule r : program.getRules())
+            if (v.size() > 1)
             {
-                cout << r.toString() << endl;
-                Predicate head = r.getHead();
-                vector<string> headCols = head.getAllValues();
-                bool isFirst = true;
-                Relation *first;
-                rules.push_back(r);
-                for (Predicate p : r.getBody())
+                cout << "SCC: ";
+                string sep = "";
+                vector<Rule> checkRules;
+                for (int i : v)
                 {
-                    if (isFirst)
-                    {
-                        first = evaluatePredicate(&p);
-                        isFirst = false;
-                    }
-                    else
-                    {
-                        Relation *tmp = evaluatePredicate(&p);
-                        first = first->naturalJoin(tmp);
-                    }
+                    checkRules.push_back(rules.at(i));
+                    cout << sep << "R" << i;
+                    sep = ",";
                 }
-                Header header = first->getHeader();
-                vector<unsigned int> indices;
-                for (string s : headCols)
+                cout << endl;
+                int numPasses = 0;
+                bool somethingChanged = true;
+                while (somethingChanged)
                 {
-                    for (unsigned int i = 0; i < header.size(); i++)
+                    somethingChanged = false;
+                    numPasses++;
+                    for (Rule r : checkRules)
                     {
-                        if (header.at(i) == s)
+                        cout << r.toString() << endl;
+                        Predicate head = r.getHead();
+                        vector<string> headCols = head.getAllValues();
+                        bool isFirst = true;
+                        Relation *first;
+                        rules.push_back(r);
+                        for (Predicate p : r.getBody())
                         {
-                            indices.push_back(i);
+                            if (isFirst)
+                            {
+                                first = evaluatePredicate(&p);
+                                isFirst = false;
+                            }
+                            else
+                            {
+                                Relation *tmp = evaluatePredicate(&p);
+                                first = first->naturalJoin(tmp);
+                            }
+                        }
+                        Header header = first->getHeader();
+                        vector<unsigned int> indices;
+                        for (string s : headCols)
+                        {
+                            for (unsigned int i = 0; i < header.size(); i++)
+                            {
+                                if (header.at(i) == s)
+                                {
+                                    indices.push_back(i);
+                                }
+                            }
+                        }
+
+                        first = first->project(indices);
+                        Relation *original = database.getRelation(head.getName());
+                        vector<string> newNames;
+                        for (unsigned int i = 0; i < original->getHeader().size(); i++)
+                        {
+                            newNames.push_back(original->getHeader().at(i));
+                        }
+                        first = first->rename(newNames);
+                        for (Tuple t : first->getTuples())
+                        {
+                            bool checkIt = database.addTupleToRelation(head.getName(), t);
+                            if (checkIt)
+                            {
+                                somethingChanged = true;
+                            }
                         }
                     }
                 }
-
-                first = first->project(indices);
-                Relation *original = database.getRelation(head.getName());
-                vector<string> newNames;
-                for (unsigned int i = 0; i < original->getHeader().size(); i++)
+                cout << numPasses << " passes: ";
+                sep = "";
+                for (int i : v)
                 {
-                    newNames.push_back(original->getHeader().at(i));
+                    cout << sep << "R" << i;
+                    sep = ",";
                 }
-                first = first->rename(newNames);
-                for (Tuple t : first->getTuples())
+                cout << endl;
+            }
+            else
+            { // trivial only go once
+                for (int i : v)
                 {
-                    bool checkIt = database.addTupleToRelation(head.getName(), t);
-                    if (checkIt)
+                    cout << "SCC: R" << i << endl;
+                    Rule r = rules.at(i);
+                    cout << r.toString() << endl;
+                    Predicate head = r.getHead();
+                    vector<string> headCols = head.getAllValues();
+                    bool isFirst = true;
+                    Relation *first;
+                    rules.push_back(r);
+                    for (Predicate p : r.getBody())
                     {
-                        somethingChanged = true;
+                        if (isFirst)
+                        {
+                            first = evaluatePredicate(&p);
+                            isFirst = false;
+                        }
+                        else
+                        {
+                            Relation *tmp = evaluatePredicate(&p);
+                            first = first->naturalJoin(tmp);
+                        }
                     }
+                    Header header = first->getHeader();
+                    vector<unsigned int> indices;
+                    for (string s : headCols)
+                    {
+                        for (unsigned int i = 0; i < header.size(); i++)
+                        {
+                            if (header.at(i) == s)
+                            {
+                                indices.push_back(i);
+                            }
+                        }
+                    }
+
+                    first = first->project(indices);
+                    Relation *original = database.getRelation(head.getName());
+                    vector<string> newNames;
+                    for (unsigned int i = 0; i < original->getHeader().size(); i++)
+                    {
+                        newNames.push_back(original->getHeader().at(i));
+                    }
+                    first = first->rename(newNames);
+                    for (Tuple t : first->getTuples())
+                    {
+                        database.addTupleToRelation(head.getName(), t);
+                    }
+
+                    cout << "1 passes: R" << i << endl;
                 }
             }
         }
-        cout << endl
-             << "Schemes populated after " << numPasses << " passes through the Rules."
-             << endl
-             << endl;
     }
 
     void evaluateQueries()
     {
-        cout << "Query Evaluation" << endl;
+        cout << endl
+             << "Query Evaluation" << endl;
         for (Predicate q : program.getQueries())
         {
             queries.push_back(q);

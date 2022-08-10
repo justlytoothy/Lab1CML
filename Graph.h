@@ -28,9 +28,10 @@ private:
     vector<node *> visitOrder;
     vector<vector<node *>> forest;
     vector<int> postOrder;
-    vector<vector<int>> finalScc;
+    vector<set<int>> finalScc;
     stack<int> posts;
     set<int> marked;
+    set<int> found;
 
 public:
     Graph() {}
@@ -51,7 +52,11 @@ public:
         }
         return -1;
     }
-    vector<vector<int>> getForest()
+    map<int, set<int>> getList()
+    {
+        return adjList;
+    }
+    vector<set<int>> getForest()
     {
         return finalScc;
     }
@@ -109,23 +114,9 @@ public:
             }
         }
         dfsForestOrder();
-        // dfsForest();
+        dfsForest();
     }
-    // void dfs(node *n)
-    // {
-    //     if (!n->visited)
-    //     {
-    //         n->visited = true;
-    //         visitOrder.push_back(n);
-    //         for (node *p : n->revAdj)
-    //         {
-    //             if (!p->visited)
-    //             {
-    //                 dfs(p);
-    //             }
-    //         }
-    //     }
-    // }
+
     void dfs(int index)
     {
         marked.insert(index);
@@ -143,33 +134,14 @@ public:
     void forwardDfs(int index)
     {
         marked.insert(index);
-        posts.push(index);
-        if (adjList.at(index).size() == 1)
+        found.insert(index);
+        for (int p : adjList.at(index))
         {
-            for (int p : adjList.at(index))
+            if (marked.find(p) == marked.end())
             {
-                if (marked.find(p) == marked.end())
-                {
-                    forwardDfs(p);
-                }
+                forwardDfs(p);
             }
         }
-        else if (adjList.at(index).size() > 1)
-        {
-            for (int i : adjList.at(index))
-            {
-                for (int j : postOrder)
-                {
-                    if (marked.find(i) == marked.end())
-                    {
-                        forwardDfs(i);
-                    }
-                }
-            }
-        }
-
-        newPostOrder.push_back(posts.top());
-        posts.pop();
     }
 
     void dfsForestOrder()
@@ -181,11 +153,6 @@ public:
                 dfs(i);
             }
         }
-        cout << "Trees: ";
-        for (int i : postOrder)
-        {
-            cout << i << ", ";
-        }
         while (posts.size() > 0)
         {
             postOrder.push_back(posts.top());
@@ -195,41 +162,29 @@ public:
         reverse(postOrder.begin(), postOrder.end());
         marked.clear();
     }
-    // void dfsForest()
-    // {
-    //     for (node *n : postOrder)
-    //     {
-    //         n->visited = false;
-    //     }
-    //     for (unsigned int i = 0; i < postOrder.size(); i++)
-    //     {
 
-    //         if (!postOrder.at(i)->visited)
-    //         {
-    //             forwardDfs(postOrder.at(i));
-    //             forest.push_back(visitOrder);
-    //             visitOrder.clear();
-    //         }
-    //     }
-    //     for (vector<node *> p : forest)
-    //     {
-    //         vector<int> tmp;
-    //         for (node *j : p)
-    //         {
-    //             tmp.push_back(j->num);
-    //         }
-    //         finalScc.push_back(tmp);
-    //     }
-    //     for (vector<node *> p : forest)
-    //     {
-    //         cout << "Tree: ";
-    //         for (node *j : p)
-    //         {
-    //             cout << j->num << ", ";
-    //         }
-    //         cout << endl;
-    //     }
-    // }
+    void dfsForest()
+    {
+        marked.clear();
+        for (int i : postOrder)
+        {
+            if (marked.find(i) == marked.end())
+            {
+                forwardDfs(i);
+                finalScc.push_back(found);
+                found.clear();
+            }
+        }
+        // for (vector<int> hi : finalScc)
+        // {
+        //     cout << "Tree: ";
+        //     for (int i : hi)
+        //     {
+        //         cout << i << ", ";
+        //     }
+        //     cout << endl;
+        // }
+    }
     void resetVisited()
     {
         for (node n : nodes)
