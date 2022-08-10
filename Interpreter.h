@@ -233,10 +233,12 @@ public:
                 }
                 cout << endl;
             }
-            else
+            else if (!graph.hasSelf(v))
             { // trivial only go once
+
                 for (int i : v)
                 {
+
                     cout << "SCC: R" << i << endl;
                     Rule r = rules.at(i);
                     cout << r.toString() << endl;
@@ -285,6 +287,70 @@ public:
                     }
 
                     cout << "1 passes: R" << i << endl;
+                }
+            }
+            else if (graph.hasSelf(v))
+            {
+                int numPasses = 0;
+                bool somethingChanged = true;
+                for (int i : v)
+                {
+                    cout << "SCC: R" << i << endl;
+                    while (somethingChanged)
+                    {
+                        somethingChanged = false;
+                        numPasses++;
+                        Rule r = rules.at(i);
+                        cout << r.toString() << endl;
+                        Predicate head = r.getHead();
+                        vector<string> headCols = head.getAllValues();
+                        bool isFirst = true;
+                        Relation *first;
+                        rules.push_back(r);
+                        for (Predicate p : r.getBody())
+                        {
+                            if (isFirst)
+                            {
+                                first = evaluatePredicate(&p);
+                                isFirst = false;
+                            }
+                            else
+                            {
+                                Relation *tmp = evaluatePredicate(&p);
+                                first = first->naturalJoin(tmp);
+                            }
+                        }
+                        Header header = first->getHeader();
+                        vector<unsigned int> indices;
+                        for (string s : headCols)
+                        {
+                            for (unsigned int i = 0; i < header.size(); i++)
+                            {
+                                if (header.at(i) == s)
+                                {
+                                    indices.push_back(i);
+                                }
+                            }
+                        }
+
+                        first = first->project(indices);
+                        Relation *original = database.getRelation(head.getName());
+                        vector<string> newNames;
+                        for (unsigned int i = 0; i < original->getHeader().size(); i++)
+                        {
+                            newNames.push_back(original->getHeader().at(i));
+                        }
+                        first = first->rename(newNames);
+                        for (Tuple t : first->getTuples())
+                        {
+                            bool checkIt = database.addTupleToRelation(head.getName(), t);
+                            if (checkIt)
+                            {
+                                somethingChanged = true;
+                            }
+                        }
+                    }
+                    cout << numPasses << " passes: R" << i << endl;
                 }
             }
         }
@@ -367,95 +433,3 @@ public:
     }
 };
 #endif
-/*
-void evalRules() {
-    cout << "Rule Evaluation" << endl;
-
-    unsigned int numPass = 0;
-    bool sink = true;
-
-    Graph graph;
-    Graph reverseGraph;
-    vector<set<unsigned int>> sccs;
-
-
-    for (int i = 0; i < program.getRules().size(); i++) {
-        Rule rule = program.getRules().at(i);
-        for (Predicate pred : rule.getBody()) {
-            for (int j = 0; j < program.getRules().size(); j++) {
-                if (pred.getName() == program.getRules().at(j).getName().getName()) {
-                    graph.addAdj(i, j);
-                    reverseGraph.addAdj(j, i);
-                    sink = false;
-                }
-            }
-        }
-        if (sink) {
-            graph.addAdj(i);
-        }
-    }
-
-    sccs = graph.dfsForestSCC(reverseGraph.dfsForest());
-
-    for (unsigned int i = 0; i < sccs.size(); i++) {
-        cout << "SCC: R" << i << endl;
-        set<unsigned int> scc = sccs.at(i);
-        set<Rule> rules;
-
-        for (unsigned int index : scc) {
-            rules.insert(program.getRules().at(index));
-        }
-
-        if (scc.size() == 1) {
-            for (Rule rule : rules)  {
-                Relation *combinedRel = getCombinedRel(rule);
-                Predicate head = rule.getName();
-
-                cout << rule.toString() << "." << endl;
-
-                // 5. Union with the relation in the database
-
-                for (Tuple t: combinedRel->getTuples()) {
-                    if (database.getRelation(head.getName())->getTuples().find(t) == database.getRelation(head.getName())->getTuples().end())  {
-                        // Output
-                        cout << " " << t.toString(database.getRelation(head.getName())->getHeader()) << endl;
-                    }
-                    database.addTuple(head.getName(), t);
-                }
-            }
-
-            cout << "1 passes: R" << i << endl;
-        } else {
-            unsigned int numPass = 0;
-            bool changed = true;
-
-            while (changed) {
-                changed = false;
-                for (Rule rule : rules)  {
-                    Relation *combinedRel = getCombinedRel(rule);
-                    Predicate head = rule.getName();
-
-                    cout << rule.toString() << "." << endl;
-
-                    // 5. Union with the relation in the database
-
-                    for (Tuple t: combinedRel->getTuples()) {
-                        if (database.getRelation(head.getName())->getTuples().find(t) == database.getRelation(head.getName())->getTuples().end())  {
-                            // Output
-                            cout << " " << t.toString(database.getRelation(head.getName())->getHeader()) << endl;
-                            changed = true;
-                        }
-                        database.addTuple(head.getName(), t);
-                    }
-                }
-
-                // Increment the number of times the fixed-point algorithm repeated the rule evaluation.
-                numPass++;
-            }
-
-            cout << numPass << " passes: R" << i << endl;
-        }
-    }
-
-}
-*/

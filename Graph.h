@@ -143,7 +143,21 @@ public:
             }
         }
     }
-
+    bool hasSelf(set<int> index)
+    {
+        for (int i : index)
+        {
+            set<int> check = adjList.at(i);
+            for (int j : check)
+            {
+                if (j == i)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     void dfsForestOrder()
     {
         for (unsigned int i = 0; i < nodes.size(); i++)
